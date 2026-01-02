@@ -64,13 +64,19 @@ $(function() {
 
     globals.curvedFolding = initCurvedFolding(globals);//for curved folding
 
-    // Load demo model: waterbomb unless model specified in URL via ?model=FILE
+    // Load demo model: blank paper unless model specified in URL via ?model=FILE
     // where FILE is the data-url attribute of an <a class="demo">.
-    var model = 'Tessellations/huffmanWaterbomb.svg';
+    var model = 'BlankPaper/letter.svg';
     var match = /[\\?&]model=([^&#]*)/.exec(location.search);
     if (match) {
         model = match[1];
     }
     model = model.replace(/'/g, ''); // avoid messing up query
-    $(".demo[data-url='"+model+"']").click();
+    // Try clicking demo link first, fallback to direct import
+    var $demoLink = $(".demo[data-url='"+model+"']");
+    if ($demoLink.length > 0) {
+        $demoLink.click();
+    } else {
+        globals.importer.importDemoFile(model);
+    }
 });

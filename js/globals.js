@@ -13,11 +13,11 @@ function initGlobals(){
         //view
         colorMode: "color",
         calcFaceStrain: false,
-        color1: "ec008b",
-        color2: "dddddd",
+        color1: "fffef5",
+        color2: "fffef5",
         edgesVisible: true,
-        mtnsVisible: true,
-        valleysVisible: true,
+        mtnsVisible: false,
+        valleysVisible: false,
         panelsVisible: false,
         passiveEdgesVisible: false,
         boundaryEdgesVisible: true,
@@ -46,14 +46,14 @@ function initGlobals(){
         simType: "dynamic",
 
         //compliant sim settings
-        creasePercent: 0.6,
-        axialStiffness: 20,
+        creasePercent: 1.0,
+        axialStiffness: 30,
         creaseStiffness: 0.7,
-        panelStiffness: 0.7,
-        faceStiffness: 0.2,
+        panelStiffness: 0.5,
+        faceStiffness: 0.4,
 
         //dynamic sim settings
-        percentDamping: 0.45,//damping ratio
+        percentDamping: 0.5,//damping ratio
         density: 1,
         integrationType: "euler",
 
