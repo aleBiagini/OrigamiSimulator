@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alessandro e Simona</title>
     <link rel="icon" type="image/svg+xml" href="/assets/wisteria.svg">
+    <meta name="description" content="Matrimonio di Alessandro e Simona - Conferma la tua partecipazione al nostro giorno speciale">
     <meta property="og:title" content="Alessandro e Simona">
+    <meta property="og:description" content="Matrimonio di Alessandro e Simona - Conferma la tua partecipazione al nostro giorno speciale">
     <meta property="og:image" content="/assets/wisteria.svg">
     <meta property="og:type" content="website">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1106,7 +1108,8 @@ function createWrittenPaperTexture(baseImage, wisteriaImage) {
     }
 
     // 4. Draw The Body Text
-    const maxWidth = size * 0.80; 
+    const isMobile = window.innerWidth <= 768;
+    const maxWidth = isMobile ? size * 0.80 - 200 : size * 0.80; 
     const lineHeight = 105;
     const fontBody = '500 120px "Alex Brush", cursive'; 
 
