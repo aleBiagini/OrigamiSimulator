@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "build": "node build.cjs",
     "prisma:generate": "prisma generate",
     "prisma:push": "prisma db push",
     "prisma:studio": "prisma studio",
@@ -17,6 +18,7 @@
     "@prisma/client": "^6.2.1"
   },
   "devDependencies": {
+    "javascript-obfuscator": "^5.1.0",
     "prisma": "^6.2.1"
   }
 }
