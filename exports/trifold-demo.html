@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tri-Fold Paper Demo</title>
+    <title>Tri-Fold Paper Demo with Sparkles</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -13,7 +16,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            background: radial-gradient(ellipse at center, #3a4a4f 0%, #1a2a2f 50%, #0a1a1f 100%);
             min-height: 100vh;
             overflow: hidden;
         }
@@ -24,100 +27,873 @@
             display: block;
         }
 
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, #3a4a4f 0%, #1a2a2f 50%, #0a1a1f 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 1;
+            transition: opacity 0.8s ease-out;
+        }
+
+        #loading-screen.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #loading-screen img {
+            width: 600px;
+            height: 600px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+
+        .nav-container {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.8s ease-out;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .nav-container.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .nav-btn {
+            padding: 12px 28px;
+            font-family: 'Alex Brush', cursive;
+            font-size: 24px;
+            color: #1c1c1c;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(139, 115, 85, 0.4);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .nav-submenu {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 15px;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            pointer-events: none;
+            transition: opacity 0.3s ease, max-height 0.4s ease;
+        }
+
+        .nav-submenu.expanded {
+            opacity: 1;
+            max-height: 200px;
+            pointer-events: auto;
+        }
+
+        .nav-submenu .nav-btn {
+            font-size: 20px;
+            padding: 10px 24px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                bottom: 20px;
+            }
+
+            .nav-btn {
+                font-size: 20px;
+                padding: 10px 24px;
+            }
+
+            .nav-submenu .nav-btn {
+                font-size: 18px;
+            }
+        }
+
     </style>
 </head>
 <body>
+    <div id="loading-screen">
+        <img src="/assets/wisteria.svg" alt="Loading" onerror="this.style.display='none'">
+    </div>
     <div id="container"></div>
 
+    <div class="nav-container">
+        <div class="nav-submenu" id="nav-submenu">
+            <button class="nav-btn" onclick="showDoveQuando()">Dove e Quando</button>
+            <button class="nav-btn" onclick="window.open('https://abiagini.it/tools/matrimonio', '_blank')">Conferma Partecipazione</button>
+            <button class="nav-btn" onclick="showListaNozze()">Lista Nozze</button>
+        </div>
+        <button class="nav-btn" id="nav-toggle" onclick="document.getElementById('nav-submenu').classList.toggle('expanded')">Maggiori Informazioni</button>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/environments/RoomEnvironment.js"></script>
     <script src="TriFoldPaper.js"></script>
+
     <script>
-        // Scene setup
+        // =========================================
+        // SPARKLE EFFECT HELPERS & CLASS
+        // =========================================
+
+        function createSparkleTexture() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 64;
+            canvas.height = 64;
+            const ctx = canvas.getContext('2d');
+
+            const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+            gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
+            gradient.addColorStop(0.2, 'rgba(255, 255, 220, 0.8)');
+            gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.1)');
+            gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 64, 64);
+
+            const texture = new THREE.Texture(canvas);
+            texture.needsUpdate = true;
+            return texture;
+        }
+
+        class SparkleSystem {
+            constructor(targetGroup, boundsWidth, boundsHeight) {
+                this.particleCount = 15;
+                this.active = true;
+                this.bounds = { w: boundsWidth, h: boundsHeight };
+                
+                this.geometry = new THREE.BufferGeometry();
+                this.positions = new Float32Array(this.particleCount * 3);
+                this.sizes = new Float32Array(this.particleCount);
+                this.userData = []; 
+
+                for (let i = 0; i < this.particleCount; i++) {
+                    this.resetParticle(i);
+                    this.userData[i].phase = Math.random() * Math.PI * 2;
+                }
+
+                this.geometry.setAttribute('position', new THREE.BufferAttribute(this.positions, 3));
+                this.geometry.setAttribute('pSize', new THREE.BufferAttribute(this.sizes, 1));
+
+                this.material = new THREE.PointsMaterial({
+                    size: 0.05, 
+                    map: createSparkleTexture(),
+                    transparent: true,
+                    opacity: 0.9,
+                    blending: THREE.AdditiveBlending, 
+                    depthWrite: false, 
+                    vertexColors: false
+                });
+                 
+                this.material.onBeforeCompile = (shader) => {
+                    shader.vertexShader = 'attribute float pSize;\n' + shader.vertexShader;
+                    shader.vertexShader = shader.vertexShader.replace(
+                        'gl_PointSize = size;',
+                        'gl_PointSize = size * pSize;'
+                    );
+                };
+
+                this.points = new THREE.Points(this.geometry, this.material);
+                this.points.position.z = 0.01; 
+                targetGroup.add(this.points);
+            }
+
+            resetParticle(index) {
+                const i3 = index * 3;
+                this.positions[i3] = (Math.random() - 0.5) * this.bounds.w * 0.9;
+                this.positions[i3 + 1] = (Math.random() - 0.5) * this.bounds.h * 0.9;
+                this.positions[i3 + 2] = (Math.random() * 0.02); 
+
+                this.userData[index] = {
+                    phase: 0, 
+                    speed: 0.02 + Math.random() * 0.04, 
+                    maxSize: 0.8 + Math.random() * 0.7 
+                };
+                this.sizes[index] = 0;
+            }
+
+            update() {
+                if (!this.active) return;
+                const sizesAttr = this.geometry.attributes.pSize;
+                let needsUpdate = false;
+
+                for (let i = 0; i < this.particleCount; i++) {
+                    const data = this.userData[i];
+                    data.phase += data.speed;
+                    let normalizedSine = (Math.sin(data.phase - Math.PI/2) + 1) / 2;
+                    this.sizes[i] = normalizedSine * data.maxSize;
+                    
+                    if (data.phase > Math.PI * 2.5) {
+                         this.resetParticle(i);
+                    }
+                    needsUpdate = true;
+                }
+
+                if (needsUpdate) {
+                    sizesAttr.needsUpdate = true;
+                    this.geometry.attributes.position.needsUpdate = true;
+                }
+            }
+
+            stop() {
+                if (!this.active) return;
+                this.active = false;
+                const fadeOut = setInterval(() => {
+                    this.material.opacity -= 0.05;
+                    if (this.material.opacity <= 0) {
+                        clearInterval(fadeOut);
+                        this.points.visible = false;
+                    }
+                }, 16);
+            }
+        }
+
+        // =========================================
+        // MAIN SCENE SETUP
+        // =========================================
+
         const container = document.getElementById('container');
         const scene = new THREE.Scene();
         
-        const camera = new THREE.PerspectiveCamera(
-            45,
-            window.innerWidth / window.innerHeight,
-            0.1,
-            100
-        );
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
         
-        // Calculate camera distance so paper fills 90% of viewport height
-        const paperHeight = 6.4;
+        const sceneHeight = 6;
         const fov = 45 * (Math.PI / 180);
-        const targetFill = 0.9; // 90vh
-        const cameraZ = (paperHeight / 2) / Math.tan(fov / 2) * targetFill;
+        const targetFill = 0.7;
+        const cameraZ = (sceneHeight / 2) / Math.tan(fov / 2) / targetFill;
         camera.position.set(0, 0, cameraZ);
 
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.setClearColor(0x000000, 0);
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        renderer.outputEncoding = THREE.sRGBEncoding;
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 0.9;
         container.appendChild(renderer.domElement);
 
-        // Lighting
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+        const pmremGenerator = new THREE.PMREMGenerator(renderer);
+        pmremGenerator.compileEquirectangularShader();
+        scene.environment = pmremGenerator.fromScene(new THREE.RoomEnvironment()).texture;
+
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.15);
         scene.add(ambientLight);
+        
+        const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 0.10);
+        hemiLight.position.set(100, 500, 200);
+        scene.add(hemiLight);
 
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-        directionalLight.position.set(5, 5, 5);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.1);
+        directionalLight.position.set(-1, 1, cameraZ);
+        directionalLight.target.position.set(-1.5, -1, -1);
+        directionalLight.castShadow = true;
+        directionalLight.shadow.mapSize.width = 2048;
+        directionalLight.shadow.mapSize.height = 2048;
         scene.add(directionalLight);
-
-        const backLight = new THREE.DirectionalLight(0xffffff, 0.3);
+        scene.add(directionalLight.target);
+        
+        const backLight = new THREE.DirectionalLight(0xffffff, 0.15);
         backLight.position.set(-5, -5, -5);
         scene.add(backLight);
 
-        // Create tri-fold paper (doubled size)
+        // =========================================
+        // TEXTURE & TEXT GENERATION
+        // =========================================
+        
+        const textureLoader = new THREE.TextureLoader();
+
+     // Function to write text onto the paper texture dynamically
+function createWrittenPaperTexture(baseImage, wisteriaImage) {
+    const canvas = document.createElement('canvas');
+    const size = 2048; 
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d');
+
+    // 1. Draw the base paper texture
+    if (baseImage) {
+        const half = size / 2;
+        ctx.drawImage(baseImage, 0, 0, half, half);
+        ctx.drawImage(baseImage, half, 0, half, half);
+        ctx.drawImage(baseImage, 0, half, half, half);
+        ctx.drawImage(baseImage, half, half, half, half);
+    } else {
+        ctx.fillStyle = '#f5f5f5';
+        ctx.fillRect(0, 0, size, size);
+    }
+
+    // 2. Configure Text Styles globals
+    const centerX = size / 2;
+    const centerY = size / 2;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = '#1c1c1c'; 
+
+    // Helper function to wrap text
+    function wrapText(text, maxWidth, font) {
+        ctx.font = font;
+        const words = text.split(' ');
+        const lines = [];
+        let currentLine = '';
+        
+        for (const word of words) {
+            const testLine = currentLine ? currentLine + ' ' + word : word;
+            const metrics = ctx.measureText(testLine);
+            if (metrics.width > maxWidth && currentLine) {
+                lines.push(currentLine);
+                currentLine = word;
+            } else {
+                currentLine = testLine;
+            }
+        }
+        if (currentLine) lines.push(currentLine);
+        return lines;
+    }
+
+    // 3. Draw wisteria image at the top
+    let yPos = 300; // Margine superiore
+    
+    if (wisteriaImage) {
+        const targetWidth = 1200; 
+        const targetHeight = 600; 
+
+        ctx.save();
+        ctx.globalCompositeOperation = 'multiply'; 
+        ctx.filter = 'contrast(1.5) saturate(2)'; 
+        ctx.drawImage(wisteriaImage, centerX - targetWidth / 2, yPos, targetWidth, targetHeight);
+        ctx.restore(); 
+
+        yPos += targetHeight + 0; 
+    } else {
+        yPos = centerY - 350;
+    }
+
+    // 4. Draw The Body Text
+    const maxWidth = size * 0.80; 
+    const lineHeight = 105;
+    const fontBody = '500 120px "Alex Brush", cursive'; 
+
+    const para1 = "Con grande gioia vi invitiamo a condividere questo giorno speciale con noi. Sarà un onore celebrare il nostro amore circondati dalle persone che più amiamo.";
+    
+    const lines1 = wrapText(para1, maxWidth, fontBody);
+    
+    ctx.font = fontBody; 
+    ctx.fillStyle = '#1c1c1c'; 
+    
+    for (const line of lines1) {
+        ctx.fillText(line, centerX, yPos);
+        yPos += lineHeight;
+    }
+
+    yPos += 20; 
+
+    // Signature
+    ctx.font = '600 100px "Alex Brush", cursive';
+    ctx.fillText("Con affetto,", centerX, yPos);
+    
+    yPos += 90; 
+    
+    ctx.font = '700 120px "Alex Brush", cursive'; // Big Signature
+    ctx.fillText("Simona e Alessandro", centerX, yPos);
+   
+
+    // ============================================================
+
+    // 6. Create Texture
+    const tex = new THREE.CanvasTexture(canvas);
+    tex.encoding = THREE.sRGBEncoding;
+    tex.flipY = true;
+    
+    tex.minFilter = THREE.LinearFilter;
+    tex.magFilter = THREE.LinearFilter;
+    tex.anisotropy = renderer.capabilities.getMaxAnisotropy(); 
+
+    return tex;
+}
+
+// Function to create texture with "Dove e Quando" content
+function createDoveQuandoTexture(baseImage, wisteriaImage) {
+    const canvas = document.createElement('canvas');
+    const size = 2048; 
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d');
+
+    // 1. Draw the base paper texture
+    if (baseImage) {
+        const half = size / 2;
+        ctx.drawImage(baseImage, 0, 0, half, half);
+        ctx.drawImage(baseImage, half, 0, half, half);
+        ctx.drawImage(baseImage, 0, half, half, half);
+        ctx.drawImage(baseImage, half, half, half, half);
+    } else {
+        ctx.fillStyle = '#f5f5f5';
+        ctx.fillRect(0, 0, size, size);
+    }
+
+    // 2. Configure Text Styles
+    const centerX = size / 2;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = '#1c1c1c'; 
+
+    // 3. Draw wisteria image at the top
+    let yPos = 300;
+    
+    if (wisteriaImage) {
+        const targetWidth = 1200; 
+        const targetHeight = 600; 
+
+        ctx.save();
+        ctx.globalCompositeOperation = 'multiply'; 
+        ctx.filter = 'contrast(1.5) saturate(2)'; 
+        ctx.drawImage(wisteriaImage, centerX - targetWidth / 2, yPos, targetWidth, targetHeight);
+        ctx.restore(); 
+
+        yPos += targetHeight + 80; 
+    } else {
+        yPos = 400;
+    }
+
+    // 4. Draw the event details
+    ctx.font = '700 180px "Alex Brush", cursive';
+    ctx.fillText("01 Giugno 2025", centerX, yPos);
+    
+    yPos += 200;
+    
+    ctx.font = '500 120px "Alex Brush", cursive';
+    ctx.fillText("Borghi dell'Eremo", centerX, yPos);
+    
+    yPos += 130;
+    
+    ctx.font = '400 100px "Alex Brush", cursive';
+    ctx.fillText("Piegaro - vocabolo Crocicchia", centerX, yPos);
+    
+    yPos += 180;
+    
+    ctx.font = '600 140px "Alex Brush", cursive';
+    ctx.fillText("ore 17.30", centerX, yPos);
+
+    // 5. Create Texture
+    const tex = new THREE.CanvasTexture(canvas);
+    tex.encoding = THREE.sRGBEncoding;
+    tex.flipY = true;
+    tex.minFilter = THREE.LinearFilter;
+    tex.magFilter = THREE.LinearFilter;
+    tex.anisotropy = renderer.capabilities.getMaxAnisotropy(); 
+
+    return tex;
+}
+
+// Function to show "Dove e Quando" content
+function showDoveQuando() {
+    // Close submenu
+    document.getElementById('nav-submenu').classList.remove('expanded');
+    
+    // Generate new texture and update paper
+    if (paperColorImage) {
+        writtenTexture = createDoveQuandoTexture(paperColorImage, wisteriaImage);
+        updatePaperMaterial();
+    }
+}
+
+// Function to create texture with "Lista Nozze" content
+function createListaNozzeTexture(baseImage, wisteriaImage) {
+    const canvas = document.createElement('canvas');
+    const size = 2048; 
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d');
+
+    // 1. Draw the base paper texture
+    if (baseImage) {
+        const half = size / 2;
+        ctx.drawImage(baseImage, 0, 0, half, half);
+        ctx.drawImage(baseImage, half, 0, half, half);
+        ctx.drawImage(baseImage, 0, half, half, half);
+        ctx.drawImage(baseImage, half, half, half, half);
+    } else {
+        ctx.fillStyle = '#f5f5f5';
+        ctx.fillRect(0, 0, size, size);
+    }
+
+    // 2. Configure Text Styles
+    const centerX = size / 2;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = '#1c1c1c'; 
+
+    // 3. Draw wisteria image at the top
+    let yPos = 250;
+    
+    if (wisteriaImage) {
+        const targetWidth = 1000; 
+        const targetHeight = 500; 
+
+        ctx.save();
+        ctx.globalCompositeOperation = 'multiply'; 
+        ctx.filter = 'contrast(1.5) saturate(2)'; 
+        ctx.drawImage(wisteriaImage, centerX - targetWidth / 2, yPos, targetWidth, targetHeight);
+        ctx.restore(); 
+
+        yPos += targetHeight + 60; 
+    } else {
+        yPos = 350;
+    }
+
+    // 4. Draw the bank details
+    ctx.font = '600 120px "Alex Brush", cursive';
+    ctx.fillText("Coordinate Bancarie", centerX, yPos);
+    
+    yPos += 140;
+    
+    ctx.font = '500 70px "Alex Brush", cursive';
+    ctx.fillText("IBAN", centerX, yPos);
+    
+    yPos += 90;
+    
+    ctx.font = '400 65px "Alex Brush", cursive';
+    ctx.fillText("IT56F0366901600900808901241", centerX, yPos);
+    
+    yPos += 110;
+    
+    ctx.font = '500 70px "Alex Brush", cursive';
+    ctx.fillText("Intestato a", centerX, yPos);
+    
+    yPos += 90;
+    
+    ctx.font = '400 75px "Alex Brush", cursive';
+    ctx.fillText("Alessandro Biagini & Simona Fiorucci", centerX, yPos);
+    
+    yPos += 110;
+    
+    ctx.font = '500 70px "Alex Brush", cursive';
+    ctx.fillText("Banca", centerX, yPos);
+    
+    yPos += 85;
+    
+    ctx.font = '400 65px "Alex Brush", cursive';
+    ctx.fillText("Revolut Bank UAB", centerX, yPos);
+    
+    yPos += 75;
+    
+    ctx.fillText("Via Dante 7", centerX, yPos);
+    
+    yPos += 75;
+    
+    ctx.fillText("20123 Milano", centerX, yPos);
+    
+    yPos += 120;
+    
+    ctx.font = '600 100px "Alex Brush", cursive';
+    ctx.fillText("Con gratitudine", centerX, yPos);
+
+    // 5. Create Texture
+    const tex = new THREE.CanvasTexture(canvas);
+    tex.encoding = THREE.sRGBEncoding;
+    tex.flipY = true;
+    tex.minFilter = THREE.LinearFilter;
+    tex.magFilter = THREE.LinearFilter;
+    tex.anisotropy = renderer.capabilities.getMaxAnisotropy(); 
+
+    return tex;
+}
+
+// Function to show "Lista Nozze" content
+function showListaNozze() {
+    // Close submenu
+    document.getElementById('nav-submenu').classList.remove('expanded');
+    
+    // Generate new texture and update paper
+    if (paperColorImage) {
+        writtenTexture = createListaNozzeTexture(paperColorImage, wisteriaImage);
+        updatePaperMaterial();
+    }
+}
+
+    // Load wisteria SVG for the invitation
+        let wisteriaImage = null;
+        let paperColorImage = null;
+        const wisteriaImg = new Image();
+        wisteriaImg.onload = function() {
+            wisteriaImage = wisteriaImg;
+            // Regenerate texture if paper already exists
+            if (paper && paperColorImage) {
+                writtenTexture = createWrittenPaperTexture(paperColorImage, wisteriaImage);
+                updatePaperMaterial();
+            }
+        };
+        wisteriaImg.src = '/assets/wisteria.svg';
+
+        // Load Base Textures
+        const paperNormal = textureLoader.load('/assets/paper/Paper005_1K-JPG_NormalGL.jpg');
+        paperNormal.repeat.set(2, 2);
+        paperNormal.wrapS = THREE.RepeatWrapping;
+        paperNormal.wrapT = THREE.RepeatWrapping;
+
+        const paperRoughness = textureLoader.load('/assets/paper/Paper005_1K-JPG_Roughness.jpg');
+        paperRoughness.repeat.set(2, 2);
+        paperRoughness.wrapS = THREE.RepeatWrapping;
+        paperRoughness.wrapT = THREE.RepeatWrapping;
+
+        // Load Color, then generate text texture
+        let writtenTexture = null;
+        let plainPaperTexture = null;
+        textureLoader.load('/assets/paper/Paper005_1K-JPG_Color.jpg', (imageTexture) => {
+            paperColorImage = imageTexture.image;
+            writtenTexture = createWrittenPaperTexture(paperColorImage, wisteriaImage);
+            // Create plain paper texture (no text) for side panels using canvas
+            const canvas = document.createElement('canvas');
+            const size = 1024;
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            // Tile the paper texture 2x2
+            const half = size / 2;
+            ctx.drawImage(imageTexture.image, 0, 0, half, half);
+            ctx.drawImage(imageTexture.image, half, 0, half, half);
+            ctx.drawImage(imageTexture.image, 0, half, half, half);
+            ctx.drawImage(imageTexture.image, half, half, half, half);
+            plainPaperTexture = new THREE.CanvasTexture(canvas);
+            plainPaperTexture.encoding = THREE.sRGBEncoding;
+            plainPaperTexture.wrapS = THREE.ClampToEdgeWrapping;
+            plainPaperTexture.wrapT = THREE.ClampToEdgeWrapping;
+            // Once created, we will apply it to the paper in the object setup below
+            if(paper) updatePaperMaterial(); 
+        });
+
+        // =========================================
+        // OBJECTS
+        // =========================================
+
+        const paperWidth = 0.9;
+        const paperHeight = 0.85;
         const paper = new TriFoldPaper({
-            width: 6.6,
-            height: 6.4,
+            width: paperWidth,
+            height: paperHeight,
             foldDuration: 800,
-            frontColor: 0xfefefe,
-            backColor: 0xf0ebe0
+            frontColor: 0xffffff, 
+            backColor: 0xffffff
         });
 
-        scene.add(paper.group);
+        function updatePaperMaterial() {
+            if(!writtenTexture || !plainPaperTexture) return;
 
-        // Add wax seal (larger size)
-        paper.setSeal('/assets/wax-seal.svg', 3);
+            // Helper to apply material to a mesh
+            function applyMaterial(mesh, texture) {
+                let mat = mesh.material;
+                if (Array.isArray(mat)) mat = mat[0];
 
-        // Start closed
-        paper.setFoldProgress(1);
+                if (mat.type !== 'MeshStandardMaterial') {
+                    const newMat = new THREE.MeshStandardMaterial({
+                        color: 0xffffff,
+                        side: THREE.DoubleSide
+                    });
+                    mesh.material = newMat;
+                    mat = newMat;
+                }
 
-        // Click handler setup
-        paper.onClick(() => {
-            paper.toggleFold();
+                mat.map = texture;
+                mat.normalMap = paperNormal;
+                mat.normalScale.set(1.5, 1.5);
+                mat.roughnessMap = paperRoughness;
+                mat.roughness = 1.0; 
+                mat.needsUpdate = true;
+            }
+
+            // Apply text texture ONLY to center panel
+            applyMaterial(paper.centerPanel, writtenTexture);
+            applyMaterial(paper.centerPanelBack, writtenTexture);
+
+            // Apply plain paper texture to side panels
+            applyMaterial(paper.leftPanel, plainPaperTexture);
+            applyMaterial(paper.leftPanelBack, plainPaperTexture);
+            applyMaterial(paper.rightPanel, plainPaperTexture);
+            applyMaterial(paper.rightPanelBack, plainPaperTexture);
+        }
+
+        // Try to update immediately if texture cached, otherwise callback handles it
+        updatePaperMaterial();
+
+        const sparkleSystem = new SparkleSystem(paper.group, paperWidth, paperHeight);
+
+        // Desk Setup Group
+        const deskSetup = new THREE.Group();
+        
+        const initialRotationX = -55 * (Math.PI / 180);
+        const initialRotationZ = -25 * (Math.PI / 180);
+        const initialDeskY = -1;
+
+        deskSetup.rotation.x = initialRotationX;
+        deskSetup.rotation.z = initialRotationZ;
+        deskSetup.position.y = initialDeskY;
+
+        const paperOffsetX = 0.8;
+        const paperOffsetY = -0.5;
+        const paperOffsetZ = 2.7;
+
+        paper.group.position.set(paperOffsetX, paperOffsetY, paperOffsetZ);
+        deskSetup.add(paper.group);
+        
+        const loader = new THREE.GLTFLoader();
+        loader.load('/assets/desk.glb', (gltf) => {
+            const desk = gltf.scene;
+            desk.scale.set(3, 3, 3);
+            desk.rotation.x = Math.PI / 2;
+            desk.position.z = -0.01;
+            
+            desk.traverse((child) => {
+                if (child.isMesh) {
+                    child.castShadow = true;
+                    child.receiveShadow = true;
+                    if (child.material) child.material.envMapIntensity = 1.5;
+                }
+            });
+            deskSetup.add(desk);
+            
+            const loadingScreen = document.getElementById('loading-screen');
+            loadingScreen.classList.add('fade-out');
+            setTimeout(() => { loadingScreen.style.display = 'none'; }, 800);
+        }, undefined, (e) => {
+             console.warn("Desk missing");
+             document.getElementById('loading-screen').classList.add('fade-out');
         });
+        
+        const groundGeometry = new THREE.PlaneGeometry(50, 50);
+        const groundMaterial = new THREE.ShadowMaterial({ opacity: 0.5 });
+        const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+        ground.position.z = -0.02;
+        ground.receiveShadow = true;
+        deskSetup.add(ground);
+        
+        scene.add(deskSetup);
+
+        paper.setSeal('/assets/wisteria-seal.svg', 0.15);
+        paper.setFoldProgress(1); 
+
+        // =========================================
+        // ANIMATION LOGIC
+        // =========================================
+
+        let animationState = 'idle'; 
+        let animStartTime = 0;
+        const ANIM_DURATION = 1500; 
+
+        function easeInOutCubic(x) {
+            return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+        }
+
+        function startZoomSequence() {
+            if (animationState !== 'idle') return;
+            
+            animationState = 'zooming';
+            animStartTime = performance.now();
+            sparkleSystem.stop(); 
+        }
+
+        function updateAnimation() {
+            if (animationState !== 'zooming') return;
+
+            const now = performance.now();
+            const elapsed = now - animStartTime;
+            const progress = Math.min(elapsed / ANIM_DURATION, 1);
+            const ease = easeInOutCubic(progress);
+
+            const currentCameraZ = initialCameraZ + (3.5 - initialCameraZ) * ease;
+            camera.position.z = currentCameraZ;
+
+            deskSetup.rotation.x = initialRotationX + (0 - initialRotationX) * ease;
+            deskSetup.rotation.z = initialRotationZ + (0 - initialRotationZ) * ease;
+
+            const targetGroupX = -paperOffsetX; 
+            const targetGroupY = -paperOffsetY; 
+
+            deskSetup.position.x = 0 + (targetGroupX - 0) * ease;
+            deskSetup.position.y = initialDeskY + (targetGroupY - initialDeskY) * ease;
+
+            if (progress >= 1) {
+                animationState = 'open';
+                paper.unfold();
+                // Show navigation buttons after envelope opens
+                setTimeout(() => {
+                    document.querySelector('.nav-container').classList.add('visible');
+                }, 800);
+            }
+        }
+
+        const initialCameraZ = cameraZ;
 
         const raycaster = new THREE.Raycaster();
         const mouse = new THREE.Vector2();
 
-        function onMouseClick(event) {
-            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+        window.addEventListener('click', (event) => {
+            if (animationState === 'idle') {
+                mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+                mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+                raycaster.setFromCamera(mouse, camera);
 
-            raycaster.setFromCamera(mouse, camera);
-            paper.handleClick(raycaster);
-        }
+                const intersects = raycaster.intersectObjects(paper.group.children, true);
+                
+                if (intersects.length > 0) {
+                    startZoomSequence();
+                }
+            } else if (animationState === 'open') {
+                paper.handleClick(raycaster); 
+            }
+        });
 
-        window.addEventListener('click', onMouseClick);
-
-        // Handle window resize
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
 
-        // Animation loop
         function animate() {
             requestAnimationFrame(animate);
+            sparkleSystem.update();
+            updateAnimation();
             renderer.render(scene, camera);
         }
+
+        // Add this at the end of your script to fix "Flash of Unstyled Text"
+        document.fonts.ready.then(function () {
+            // This runs once all fonts (Alex Brush) are fully loaded
+            if (paper && paperColorImage) {
+                // Re-run the texture generation with the correct font
+                writtenTexture = createWrittenPaperTexture(paperColorImage, wisteriaImage);
+                updatePaperMaterial();
+            }
+        });
 
         animate();
     </script>
 </body>
 </html>
-
