@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tri-Fold Paper Demo with Sparkles</title>
+    <title>Alessandro e Simona</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
@@ -135,6 +135,44 @@
             }
         }
 
+        .audio-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 44px;
+            height: 44px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(139, 115, 85, 0.4);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .audio-toggle.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .audio-toggle:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .audio-toggle svg {
+            width: 22px;
+            height: 22px;
+            fill: #1c1c1c;
+        }
+
     </style>
 </head>
 <body>
@@ -154,6 +192,15 @@
     </div>
 
     <div id="youtube-audio-player"></div>
+
+    <button class="audio-toggle" id="audio-toggle" onclick="toggleAudio()">
+        <svg id="audio-icon-on" viewBox="0 0 24 24">
+            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+        </svg>
+        <svg id="audio-icon-off" style="display: none;" viewBox="0 0 24 24">
+            <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+        </svg>
+    </button>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
@@ -332,7 +379,35 @@
             if (player && typeof player.playVideo === 'function' && !isMusicPlaying) {
                 player.playVideo();
                 isMusicPlaying = true;
+                updateAudioIcon();
                 console.log('playVideo called');
+            }
+        }
+
+        var isMuted = false;
+
+        function toggleAudio() {
+            if (!player || typeof player.isMuted !== 'function') return;
+            
+            if (player.isMuted()) {
+                player.unMute();
+                isMuted = false;
+            } else {
+                player.mute();
+                isMuted = true;
+            }
+            updateAudioIcon();
+        }
+
+        function updateAudioIcon() {
+            var iconOn = document.getElementById('audio-icon-on');
+            var iconOff = document.getElementById('audio-icon-off');
+            if (isMuted) {
+                iconOn.style.display = 'none';
+                iconOff.style.display = 'block';
+            } else {
+                iconOn.style.display = 'block';
+                iconOff.style.display = 'none';
             }
         }
 
@@ -856,10 +931,24 @@ function showHome() {
 
         let animationState = 'idle'; 
         let animStartTime = 0;
-        const ANIM_DURATION = 1500; 
+        const ANIM_DURATION = 1500;
+        let autoOpenTimeout = null; 
 
         function easeInOutCubic(x) {
             return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+        }
+
+        function openLetter() {
+            if (autoOpenTimeout) {
+                clearTimeout(autoOpenTimeout);
+                autoOpenTimeout = null;
+            }
+            animationState = 'open';
+            paper.unfold();
+            setTimeout(() => {
+                document.querySelector('.nav-container').classList.add('visible');
+                document.getElementById('audio-toggle').classList.add('visible');
+            }, 800);
         }
 
         function startZoomSequence() {
@@ -891,12 +980,13 @@ function showHome() {
             deskSetup.position.y = initialDeskY + (targetGroupY - initialDeskY) * ease;
 
             if (progress >= 1) {
-                animationState = 'open';
-                paper.unfold();
-                // Show navigation buttons after envelope opens
-                setTimeout(() => {
-                    document.querySelector('.nav-container').classList.add('visible');
-                }, 800);
+                animationState = 'waiting_to_open';
+                // Auto-open after 3 seconds if user doesn't click
+                autoOpenTimeout = setTimeout(() => {
+                    if (animationState === 'waiting_to_open') {
+                        openLetter();
+                    }
+                }, 3000);
             }
         }
 
@@ -905,12 +995,12 @@ function showHome() {
         const raycaster = new THREE.Raycaster();
         const mouse = new THREE.Vector2();
 
-        // Auto-start animation after 5 seconds if user hasn't clicked
+        // Auto-start zoom after 2 seconds if user hasn't clicked
         let autoStartTimeout = setTimeout(() => {
             if (animationState === 'idle') {
                 startZoomSequence();
             }
-        }, 5000);
+        }, 2000);
 
         window.addEventListener('click', (event) => {
             // Attempt to start music on any click
@@ -928,6 +1018,8 @@ function showHome() {
                 if (intersects.length > 0) {
                     startZoomSequence();
                 }
+            } else if (animationState === 'waiting_to_open') {
+                openLetter();
             } else if (animationState === 'open') {
                 paper.handleClick(raycaster); 
             }
