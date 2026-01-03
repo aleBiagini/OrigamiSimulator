@@ -67,7 +67,7 @@ function copyDir(src, dest) {
     }
 }
 
-// Extract inline script from HTML
+// Extract inline script from HTML and replace with obfuscated references
 function extractInlineScript(html) {
     // Find the last <script> tag that contains inline code (not src attribute)
     const scriptRegex = /<script>[\s\S]*?<\/script>/g;
@@ -81,10 +81,16 @@ function extractInlineScript(html) {
     const lastScript = matches[matches.length - 1];
     const scriptContent = lastScript.replace(/<script>/, '').replace(/<\/script>/, '');
     
-    // Replace the inline script with external reference
-    const modifiedHtml = html.replace(
+    // Replace the original TriFoldPaper.js reference with obfuscated version
+    let modifiedHtml = html.replace(
+        '<script src="exports/TriFoldPaper.js"></script>',
+        '<script src="js/TriFoldPaper.min.js"></script>'
+    );
+    
+    // Replace the inline script with external obfuscated reference
+    modifiedHtml = modifiedHtml.replace(
         lastScript,
-        '<script src="js/TriFoldPaper.min.js"></script>\n    <script src="js/main.min.js"></script>'
+        '<script src="js/main.min.js"></script>'
     );
     
     return { html: modifiedHtml, script: scriptContent };
@@ -140,20 +146,8 @@ async function build() {
         console.log('  -> dist/lista-invitati.html');
     }
     
-    // 7. Copy api folder (for Vercel serverless functions)
-    const apiDir = path.join(srcDir, 'api');
-    if (fs.existsSync(apiDir)) {
-        console.log('Copying API functions...');
-        copyDir(apiDir, path.join(distDir, 'api'));
-        console.log('  -> dist/api/');
-    }
-    
-    // 8. Copy vercel.json
-    const vercelJsonPath = path.join(srcDir, 'vercel.json');
-    if (fs.existsSync(vercelJsonPath)) {
-        fs.copyFileSync(vercelJsonPath, path.join(distDir, 'vercel.json'));
-        console.log('  -> dist/vercel.json');
-    }
+    // Note: API folder stays at root (Vercel serverless functions)
+    // Note: vercel.json stays at root (Vercel config)
     
     console.log('\nBuild complete! Output in dist/ folder.');
 }
