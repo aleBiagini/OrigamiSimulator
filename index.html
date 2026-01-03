@@ -546,7 +546,7 @@
             
             <form id="rsvp-form">
                 <div class="rsvp-form-group">
-                    <label class="rsvp-label" for="guest-select">Seleziona i partecipanti</label>
+                    <label class="rsvp-label" for="guest-select">Inserisci il tuo nome completo per trovarti nella lista invitati</label>
                     <select class="rsvp-select" id="guest-select" multiple required>
                     </select>
                 </div>
@@ -608,38 +608,58 @@
                 guestSelectChoices = null;
             }
             
+            // Load guests data but don't populate the dropdown
             try {
                 const response = await fetch('/api/guests');
                 const data = await response.json();
                 
                 if (data.guests && data.guests.length > 0) {
                     guestsData = data.guests;
-                    select.innerHTML = '';
-                    data.guests.forEach(guest => {
-                        const option = document.createElement('option');
-                        option.value = guest.id;
-                        option.textContent = guest.registration ? guest.name + ' (gia registrato)' : guest.name;
-                        select.appendChild(option);
-                    });
                 } else {
-                    select.innerHTML = '';
+                    guestsData = [];
                 }
             } catch (error) {
                 console.error('Error loading guests:', error);
-                select.innerHTML = '';
+                guestsData = [];
             }
+            
+            // Initialize Choices with empty options
+            select.innerHTML = '';
             
             guestSelectChoices = new Choices(select, {
                 searchEnabled: true,
-                searchPlaceholderValue: 'Cerca...',
+                searchPlaceholderValue: 'Inserisci il tuo nome completo...',
                 itemSelectText: '',
-                noResultsText: 'Nessun risultato',
-                noChoicesText: 'Nessuna scelta disponibile',
+                noResultsText: 'Inserisci il nome completo per trovare il tuo invito',
+                noChoicesText: 'Inserisci il nome completo per trovare il tuo invito',
                 shouldSort: false,
                 position: 'bottom',
                 removeItemButton: true,
-                placeholderValue: 'Seleziona uno o piu partecipanti...',
+                placeholderValue: 'Inserisci il tuo nome completo...',
                 maxItemCount: -1
+            });
+            
+            // Custom search: only show exact full name matches (case-insensitive)
+            guestSelectChoices.input.element.addEventListener('input', function(e) {
+                const searchValue = e.target.value.toLowerCase().trim();
+                
+                // Find exact matches only (case-insensitive)
+                const exactMatches = guestsData.filter(guest => 
+                    guest.name.toLowerCase() === searchValue
+                );
+                
+                // Clear existing choices and add only exact matches
+                guestSelectChoices.clearChoices();
+                
+                if (exactMatches.length > 0) {
+                    const choices = exactMatches.map(guest => ({
+                        value: guest.id.toString(),
+                        label: guest.registration ? guest.name + ' (gia registrato)' : guest.name,
+                        selected: false,
+                        disabled: false
+                    }));
+                    guestSelectChoices.setChoices(choices, 'value', 'label', true);
+                }
             });
         }
 
