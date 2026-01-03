@@ -111,7 +111,7 @@
 
         .nav-submenu.expanded {
             opacity: 1;
-            max-height: 200px;
+            max-height: 300px;
             pointer-events: auto;
         }
 
@@ -145,12 +145,15 @@
 
     <div class="nav-container">
         <div class="nav-submenu" id="nav-submenu">
+            <button class="nav-btn" onclick="showHome()">Home</button>
             <button class="nav-btn" onclick="showDoveQuando()">Dove e Quando</button>
             <button class="nav-btn" onclick="window.open('https://abiagini.it/tools/matrimonio', '_blank')">Conferma Partecipazione</button>
             <button class="nav-btn" onclick="showListaNozze()">Lista Nozze</button>
         </div>
         <button class="nav-btn" id="nav-toggle" onclick="document.getElementById('nav-submenu').classList.toggle('expanded')">Maggiori Informazioni</button>
     </div>
+
+    <div id="youtube-audio-player"></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
@@ -271,6 +274,65 @@
                         this.points.visible = false;
                     }
                 }, 16);
+            }
+        }
+
+        // =========================================
+        // YOUTUBE MUSIC INTEGRATION
+        // =========================================
+
+        var player;
+        var isMusicPlaying = false;
+
+        // 1. Load the IFrame Player API code asynchronously.
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        // 2. This function creates an <iframe> (and YouTube player)
+        //    after the API code downloads.
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('youtube-audio-player', {
+                height: '1',
+                width: '1',
+                videoId: 'Jk4P10nsq4c',
+                playerVars: {
+                    'autoplay': 0, 
+                    'controls': 0,
+                    'loop': 1,
+                    'playlist': 'Jk4P10nsq4c',
+                    'origin': window.location.origin
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onError': onPlayerError,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        // 3. The API will call this function when the video player is ready.
+        function onPlayerReady(event) {
+            console.log('YouTube player ready');
+            event.target.setVolume(30);
+        }
+
+        function onPlayerError(event) {
+            console.error('YouTube player error:', event.data);
+            // Error codes: 2=invalid ID, 5=HTML5 error, 100=not found, 101/150=embedding disabled
+        }
+
+        function onPlayerStateChange(event) {
+            console.log('YouTube player state:', event.data);
+        }
+
+        function startMusic() {
+            console.log('startMusic called, player:', player, 'isMusicPlaying:', isMusicPlaying);
+            if (player && typeof player.playVideo === 'function' && !isMusicPlaying) {
+                player.playVideo();
+                isMusicPlaying = true;
+                console.log('playVideo called');
             }
         }
 
@@ -485,12 +547,12 @@ function createDoveQuandoTexture(baseImage, wisteriaImage) {
 
     // 4. Draw the event details
     ctx.font = '700 180px "Alex Brush", cursive';
-    ctx.fillText("01 Giugno 2025", centerX, yPos);
+    ctx.fillText("01 Giugno 2026", centerX, yPos);
     
     yPos += 200;
     
     ctx.font = '500 120px "Alex Brush", cursive';
-    ctx.fillText("Borghi dell'Eremo", centerX, yPos);
+    ctx.fillText("I Borghi dell'Eremo", centerX, yPos);
     
     yPos += 130;
     
@@ -575,43 +637,20 @@ function createListaNozzeTexture(baseImage, wisteriaImage) {
     
     yPos += 140;
     
-    ctx.font = '500 70px "Alex Brush", cursive';
-    ctx.fillText("IBAN", centerX, yPos);
-    
-    yPos += 90;
-    
-    ctx.font = '400 65px "Alex Brush", cursive';
-    ctx.fillText("IT56F0366901600900808901241", centerX, yPos);
+    ctx.font = '400 65px "Inter", sans-serif';
+    ctx.fillText("IT56 F036 6901 6009 0080 8901 241", centerX, yPos);
     
     yPos += 110;
     
-    ctx.font = '500 70px "Alex Brush", cursive';
+    ctx.font = '600 70px "Alex Brush", cursive';
     ctx.fillText("Intestato a", centerX, yPos);
     
     yPos += 90;
     
-    ctx.font = '400 75px "Alex Brush", cursive';
+    ctx.font = '600 90px "Alex Brush", cursive';
     ctx.fillText("Alessandro Biagini & Simona Fiorucci", centerX, yPos);
     
-    yPos += 110;
-    
-    ctx.font = '500 70px "Alex Brush", cursive';
-    ctx.fillText("Banca", centerX, yPos);
-    
-    yPos += 85;
-    
-    ctx.font = '400 65px "Alex Brush", cursive';
-    ctx.fillText("Revolut Bank UAB", centerX, yPos);
-    
-    yPos += 75;
-    
-    ctx.fillText("Via Dante 7", centerX, yPos);
-    
-    yPos += 75;
-    
-    ctx.fillText("20123 Milano", centerX, yPos);
-    
-    yPos += 120;
+    yPos += 125;
     
     ctx.font = '600 100px "Alex Brush", cursive';
     ctx.fillText("Con gratitudine", centerX, yPos);
@@ -635,6 +674,18 @@ function showListaNozze() {
     // Generate new texture and update paper
     if (paperColorImage) {
         writtenTexture = createListaNozzeTexture(paperColorImage, wisteriaImage);
+        updatePaperMaterial();
+    }
+}
+
+// Function to show Home (first message)
+function showHome() {
+    // Close submenu
+    document.getElementById('nav-submenu').classList.remove('expanded');
+    
+    // Generate original texture and update paper
+    if (paperColorImage) {
+        writtenTexture = createWrittenPaperTexture(paperColorImage, wisteriaImage);
         updatePaperMaterial();
     }
 }
@@ -854,8 +905,20 @@ function showListaNozze() {
         const raycaster = new THREE.Raycaster();
         const mouse = new THREE.Vector2();
 
-        window.addEventListener('click', (event) => {
+        // Auto-start animation after 5 seconds if user hasn't clicked
+        let autoStartTimeout = setTimeout(() => {
             if (animationState === 'idle') {
+                startZoomSequence();
+            }
+        }, 5000);
+
+        window.addEventListener('click', (event) => {
+            // Attempt to start music on any click
+            // This ensures browser autoplay policies are satisfied
+            startMusic();
+
+            if (animationState === 'idle') {
+                clearTimeout(autoStartTimeout);
                 mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
                 mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
                 raycaster.setFromCamera(mouse, camera);
