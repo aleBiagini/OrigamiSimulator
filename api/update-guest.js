@@ -20,6 +20,7 @@ export default async function handler(req, res) {
             password,
             guestId,
             registrationId,
+            guestName,
             attending,
             dietaryPreference,
             dietaryNotes,
@@ -45,6 +46,23 @@ export default async function handler(req, res) {
 
         if (!guest) {
             return res.status(404).json({ error: 'Ospite non trovato' });
+        }
+
+        // Update guest name if provided and different
+        if (guestName && guestName.trim() !== '' && guestName.trim() !== guest.name) {
+            // Check if the new name already exists
+            const existingGuest = await prisma.guest.findUnique({
+                where: { name: guestName.trim() }
+            });
+            
+            if (existingGuest && existingGuest.id !== guestId) {
+                return res.status(400).json({ error: 'Esiste gia un ospite con questo nome' });
+            }
+            
+            await prisma.guest.update({
+                where: { id: guestId },
+                data: { name: guestName.trim() }
+            });
         }
 
         if (attending === null) {

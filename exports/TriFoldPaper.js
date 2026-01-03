@@ -20,7 +20,7 @@ class TriFoldPaper {
         this.animationStartTime = null;
         this.animationStartProgress = 0;
         this.foldGap = options.foldGap || 0.015;
-        this.restAngle = options.restAngle || 0.02;
+        this.restAngle = options.restAngle || 0.0;
 
         this.group = new THREE.Group();
         this.sideWidth = this.width / (2 + this.centerRatio);
@@ -318,12 +318,13 @@ class TriFoldPaper {
 
     _applyFoldTransform() {
         const foldRange = Math.PI + this.restAngle;
-        this.leftPanelGroup.rotation.y = -this.restAngle + this.foldProgress * foldRange;
-        this.rightPanelGroup.rotation.y = this.restAngle - this.foldProgress * foldRange;
+        const leftRotation = -this.restAngle + this.foldProgress * foldRange;
+        this.leftPanelGroup.rotation.y = leftRotation;
+        this.rightPanelGroup.rotation.y = -leftRotation;
         
         const zOffset = this.foldProgress * this.foldGap;
         this.leftPanelGroup.position.z = zOffset;
-        this.rightPanelGroup.position.z = zOffset * 2;
+        this.rightPanelGroup.position.z = zOffset + 0.002;
 
         // 1. Update Drop Shadows (Cast Shadows)
         const maxDropShadowOpacity = 0.15;

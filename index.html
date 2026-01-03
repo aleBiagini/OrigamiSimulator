@@ -1543,12 +1543,12 @@ function showHome() {
         const raycaster = new THREE.Raycaster();
         const mouse = new THREE.Vector2();
 
-        // Auto-start zoom after 2 seconds if user hasn't clicked
+        // Auto-start zoom after 3 seconds if user hasn't clicked
         let autoStartTimeout = setTimeout(() => {
             if (animationState === 'idle') {
                 startZoomSequence();
             }
-        }, 2000);
+        }, 3000);
 
         window.addEventListener('click', (event) => {
             // Attempt to start music on any click
