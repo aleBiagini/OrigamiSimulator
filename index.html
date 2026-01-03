@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js@10.2.0/public/assets/styles/choices.min.css" />
     <style>
         * {
             margin: 0;
@@ -173,6 +174,333 @@
             fill: #1c1c1c;
         }
 
+        /* RSVP Form Overlay */
+        .rsvp-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .rsvp-overlay.visible {
+            display: flex;
+        }
+
+        .rsvp-form-container {
+            background: linear-gradient(135deg, #fefefe 0%, #f5f0e8 100%);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(139, 115, 85, 0.3);
+        }
+
+        .rsvp-close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 36px;
+            height: 36px;
+            background: rgba(139, 115, 85, 0.1);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            color: #8b7355;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .rsvp-close-btn:hover {
+            background: rgba(139, 115, 85, 0.2);
+            transform: scale(1.1);
+        }
+
+        .rsvp-title {
+            font-family: 'Alex Brush', cursive;
+            font-size: 42px;
+            color: #1c1c1c;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .rsvp-form-group {
+            margin-bottom: 20px;
+        }
+
+        .rsvp-label {
+            display: block;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .rsvp-select,
+        .rsvp-input {
+            width: 100%;
+            padding: 14px 16px;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 16px;
+            border: 1px solid rgba(139, 115, 85, 0.3);
+            border-radius: 10px;
+            background: white;
+            color: #1c1c1c;
+            transition: all 0.3s ease;
+        }
+
+        .rsvp-select:focus,
+        .rsvp-input:focus {
+            outline: none;
+            border-color: #8b7355;
+            box-shadow: 0 0 0 3px rgba(139, 115, 85, 0.1);
+        }
+
+        .choices {
+            margin-bottom: 0;
+        }
+
+        .choices__inner {
+            width: 100%;
+            padding: 10px 16px;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 16px;
+            border: 1px solid rgba(139, 115, 85, 0.3);
+            border-radius: 10px;
+            background: white;
+            color: #1c1c1c;
+            min-height: auto;
+        }
+
+        .choices__list--single {
+            padding: 4px 16px 4px 4px;
+        }
+
+        .choices__input {
+            font-size: 16px;
+            background: white;
+            color: #1c1c1c;
+        }
+
+        .choices[data-type*="select-one"] .choices__input {
+            display: block;
+            width: 100%;
+            padding: 10px 16px;
+            border-bottom: 1px solid rgba(139, 115, 85, 0.3);
+            background: #f9f9f9;
+            margin: 0;
+        }
+
+        .choices[data-type*="select-one"] .choices__inner {
+            padding-bottom: 10px;
+        }
+
+        .choices[data-type*="select-one"]::after {
+            border-color: #8b7355 transparent transparent transparent;
+        }
+
+        .choices.is-open .choices__inner,
+        .choices.is-focused .choices__inner {
+            border-color: #8b7355;
+            box-shadow: 0 0 0 3px rgba(139, 115, 85, 0.1);
+        }
+
+        .choices__list--dropdown {
+            border: 1px solid rgba(139, 115, 85, 0.3);
+            border-radius: 10px;
+            z-index: 100;
+            background: white;
+        }
+
+        .choices__list--dropdown .choices__item--selectable.is-highlighted {
+            background-color: rgba(139, 115, 85, 0.15);
+        }
+
+        .choices__list--dropdown .choices__item {
+            padding: 12px 16px;
+            color: #1c1c1c;
+        }
+
+        .choices__list--single .choices__item {
+            color: #1c1c1c;
+        }
+
+        .choices__placeholder {
+            color: #666;
+        }
+
+        .rsvp-submit-btn {
+            width: 100%;
+            padding: 16px;
+            font-family: 'Alex Brush', cursive;
+            font-size: 28px;
+            color: white;
+            background: linear-gradient(135deg, #8b7355 0%, #6b5a47 100%);
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(139, 115, 85, 0.3);
+        }
+
+        .rsvp-submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 115, 85, 0.4);
+        }
+
+        .rsvp-submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .rsvp-message {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .rsvp-message.success {
+            display: block;
+            background: rgba(76, 175, 80, 0.1);
+            color: #2e7d32;
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+
+        .rsvp-message.error {
+            display: block;
+            background: rgba(244, 67, 54, 0.1);
+            color: #c62828;
+            border: 1px solid rgba(244, 67, 54, 0.3);
+        }
+
+        .rsvp-loading {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .rsvp-loading p {
+            color: #5a4a3a;
+            font-weight: 500;
+        }
+
+        .rsvp-loading.visible {
+            display: block;
+        }
+
+        .rsvp-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(139, 115, 85, 0.2);
+            border-top-color: #8b7355;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .dietary-notes-field {
+            display: none;
+        }
+
+        .dietary-notes-field.visible {
+            display: block;
+            margin-top: 10px;
+        }
+
+        .choices[data-type*="select-multiple"] .choices__inner {
+            min-height: 50px;
+        }
+
+        .choices[data-type*="select-multiple"] .choices__item {
+            background: rgba(139, 115, 85, 0.15);
+            border: 1px solid rgba(139, 115, 85, 0.3);
+            border-radius: 6px;
+            color: #1c1c1c;
+        }
+
+        .choices[data-type*="select-multiple"] .choices__button {
+            border-left: 1px solid rgba(139, 115, 85, 0.4);
+        }
+
+        .rsvp-radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .rsvp-radio-option {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 12px 16px;
+            border: 1px solid rgba(139, 115, 85, 0.3);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .rsvp-radio-option:hover {
+            border-color: #8b7355;
+            background: rgba(139, 115, 85, 0.05);
+        }
+
+        .rsvp-radio-option input[type="radio"] {
+            margin-right: 12px;
+            width: 18px;
+            height: 18px;
+            accent-color: #8b7355;
+        }
+
+        .rsvp-radio-option input[type="radio"]:checked + .rsvp-radio-label {
+            font-weight: 600;
+            color: #8b7355;
+        }
+
+        .rsvp-radio-label {
+            font-size: 15px;
+            color: #333;
+        }
+
+        #attending-fields {
+            transition: opacity 0.3s ease, max-height 0.3s ease;
+        }
+
+        #attending-fields.hidden {
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        @media (max-width: 768px) {
+            .rsvp-form-container {
+                padding: 25px;
+            }
+
+            .rsvp-title {
+                font-size: 32px;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -185,7 +513,7 @@
         <div class="nav-submenu" id="nav-submenu">
             <button class="nav-btn" onclick="showHome()">Home</button>
             <button class="nav-btn" onclick="showDoveQuando()">Dove e Quando</button>
-            <button class="nav-btn" onclick="window.open('https://abiagini.it/tools/matrimonio', '_blank')">Conferma Partecipazione</button>
+            <button class="nav-btn" onclick="openRsvpForm()">Conferma Partecipazione</button>
             <button class="nav-btn" onclick="showListaNozze()">Lista Nozze</button>
         </div>
         <button class="nav-btn" id="nav-toggle" onclick="document.getElementById('nav-submenu').classList.toggle('expanded')">Maggiori Informazioni</button>
@@ -202,12 +530,232 @@
         </svg>
     </button>
 
+    <!-- RSVP Form Overlay -->
+    <div class="rsvp-overlay" id="rsvp-overlay">
+        <div class="rsvp-form-container">
+            <button class="rsvp-close-btn" onclick="closeRsvpForm()">&times;</button>
+            
+            <h2 class="rsvp-title">Conferma Partecipazione</h2>
+            
+            <div id="rsvp-message" class="rsvp-message"></div>
+            
+            <div id="rsvp-loading" class="rsvp-loading">
+                <div class="rsvp-spinner"></div>
+                <p>Invio in corso...</p>
+            </div>
+            
+            <form id="rsvp-form">
+                <div class="rsvp-form-group">
+                    <label class="rsvp-label" for="guest-select">Seleziona i partecipanti</label>
+                    <select class="rsvp-select" id="guest-select" multiple required>
+                    </select>
+                </div>
+                
+                <div class="rsvp-form-group">
+                    <label class="rsvp-label">Parteciperai al matrimonio?</label>
+                    <div class="rsvp-radio-group">
+                        <label class="rsvp-radio-option">
+                            <input type="radio" name="attending" value="yes" checked onchange="toggleAttendingFields()">
+                            <span class="rsvp-radio-label">Si, parteciperò</span>
+                        </label>
+                        <label class="rsvp-radio-option">
+                            <input type="radio" name="attending" value="no" onchange="toggleAttendingFields()">
+                            <span class="rsvp-radio-label">No, non potrò partecipare</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div id="attending-fields">
+                    <div class="rsvp-form-group">
+                        <label class="rsvp-label" for="dietary-select">Preferenze alimentari</label>
+                        <select class="rsvp-select" id="dietary-select" onchange="toggleDietaryNotes()">
+                            <option value="nessuna">Nessuna preferenza</option>
+                            <option value="vegetariano">Vegetariano</option>
+                            <option value="vegano">Vegano</option>
+                            <option value="allergie">Intolleranze / Allergie</option>
+                        </select>
+                        <div id="dietary-notes-container" class="dietary-notes-field">
+                            <input type="text" class="rsvp-input" id="dietary-notes" placeholder="Specifica le tue intolleranze o allergie">
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <button type="submit" class="rsvp-submit-btn" id="rsvp-submit-btn">Conferma</button>
+            </form>
+        </div>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/choices.js@10.2.0/public/assets/scripts/choices.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/environments/RoomEnvironment.js"></script>
     <script src="exports/TriFoldPaper.js"></script>
 
     <script>
+        // =========================================
+        // RSVP FORM LOGIC
+        // =========================================
+
+        let guestsData = [];
+        let guestSelectChoices = null;
+
+        async function loadGuests() {
+            const select = document.getElementById('guest-select');
+            
+            if (guestSelectChoices) {
+                guestSelectChoices.destroy();
+                guestSelectChoices = null;
+            }
+            
+            try {
+                const response = await fetch('/api/guests');
+                const data = await response.json();
+                
+                if (data.guests && data.guests.length > 0) {
+                    guestsData = data.guests;
+                    select.innerHTML = '';
+                    data.guests.forEach(guest => {
+                        const option = document.createElement('option');
+                        option.value = guest.id;
+                        option.textContent = guest.registration ? guest.name + ' (gia registrato)' : guest.name;
+                        select.appendChild(option);
+                    });
+                } else {
+                    select.innerHTML = '';
+                }
+            } catch (error) {
+                console.error('Error loading guests:', error);
+                select.innerHTML = '';
+            }
+            
+            guestSelectChoices = new Choices(select, {
+                searchEnabled: true,
+                searchPlaceholderValue: 'Cerca...',
+                itemSelectText: '',
+                noResultsText: 'Nessun risultato',
+                noChoicesText: 'Nessuna scelta disponibile',
+                shouldSort: false,
+                position: 'bottom',
+                removeItemButton: true,
+                placeholderValue: 'Seleziona uno o piu partecipanti...',
+                maxItemCount: -1
+            });
+        }
+
+        function openRsvpForm() {
+            document.getElementById('nav-submenu').classList.remove('expanded');
+            document.getElementById('rsvp-overlay').classList.add('visible');
+            document.getElementById('rsvp-form').reset();
+            document.getElementById('rsvp-message').className = 'rsvp-message';
+            document.getElementById('rsvp-message').textContent = '';
+            document.getElementById('dietary-notes-container').classList.remove('visible');
+            document.getElementById('attending-fields').classList.remove('hidden');
+            loadGuests();
+        }
+
+        function closeRsvpForm() {
+            document.getElementById('rsvp-overlay').classList.remove('visible');
+        }
+
+        function toggleDietaryNotes() {
+            const select = document.getElementById('dietary-select');
+            const container = document.getElementById('dietary-notes-container');
+            if (select.value === 'allergie') {
+                container.classList.add('visible');
+            } else {
+                container.classList.remove('visible');
+            }
+        }
+
+        function toggleAttendingFields() {
+            const attending = document.querySelector('input[name="attending"]:checked').value === 'yes';
+            const fieldsContainer = document.getElementById('attending-fields');
+            
+            if (attending) {
+                fieldsContainer.classList.remove('hidden');
+            } else {
+                fieldsContainer.classList.add('hidden');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('rsvp-form');
+            
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const submitBtn = document.getElementById('rsvp-submit-btn');
+                const loading = document.getElementById('rsvp-loading');
+                const message = document.getElementById('rsvp-message');
+                
+                const selectedValues = guestSelectChoices.getValue(true);
+                const guestIds = Array.isArray(selectedValues) ? selectedValues.map(id => parseInt(id)) : [];
+                const attending = document.querySelector('input[name="attending"]:checked').value === 'yes';
+                const dietaryPreference = document.getElementById('dietary-select').value;
+                const dietaryNotes = document.getElementById('dietary-notes').value;
+                
+                if (guestIds.length === 0) {
+                    message.textContent = 'Per favore seleziona almeno un partecipante';
+                    message.className = 'rsvp-message error';
+                    return;
+                }
+                
+                submitBtn.disabled = true;
+                form.style.display = 'none';
+                loading.classList.add('visible');
+                message.className = 'rsvp-message';
+                
+                try {
+                    const response = await fetch('/api/register', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            guestIds: guestIds,
+                            attending,
+                            dietaryPreference: attending ? dietaryPreference : 'nessuna',
+                            dietaryNotes: attending && dietaryPreference === 'allergie' ? dietaryNotes : null
+                        })
+                    });
+                    
+                    const result = await response.json();
+                    
+                    loading.classList.remove('visible');
+                    
+                    if (response.ok) {
+                        message.textContent = attending 
+                            ? 'Grazie per la conferma! Ti aspettiamo il 1 Giugno 2026.'
+                            : 'Risposta registrata. Ci dispiace che non potrai essere presente.';
+                        message.className = 'rsvp-message success';
+                        setTimeout(() => {
+                            closeRsvpForm();
+                        }, 3000);
+                    } else {
+                        form.style.display = 'block';
+                        message.textContent = result.error || 'Errore durante la registrazione';
+                        message.className = 'rsvp-message error';
+                        submitBtn.disabled = false;
+                    }
+                } catch (error) {
+                    console.error('Registration error:', error);
+                    loading.classList.remove('visible');
+                    form.style.display = 'block';
+                    message.textContent = 'Errore di connessione. Riprova.';
+                    message.className = 'rsvp-message error';
+                    submitBtn.disabled = false;
+                }
+            });
+        });
+
+        // Close overlay when clicking outside the form
+        document.getElementById('rsvp-overlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeRsvpForm();
+            }
+        });
+
         // =========================================
         // SPARKLE EFFECT HELPERS & CLASS
         // =========================================
@@ -550,7 +1098,7 @@ function createWrittenPaperTexture(baseImage, wisteriaImage) {
         yPos += lineHeight;
     }
 
-    yPos += 20; 
+    yPos += 60; 
 
     // Signature
     ctx.font = '600 100px "Alex Brush", cursive';

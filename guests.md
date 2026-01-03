@@ -1,0 +1,135 @@
+# Guests
+- Marina Bromo
+- Paolo Sicignano
+- Matteo Sicignano + 1
+- Dario Romboli
+- Diletta Menichetti
+- Marta Cheli
+- Andrea Ghelardoni
+- Francesca Rose
+- Edoardo Papiani
+- Giulio Papiani
+- Alice Medda
+- Alessandra Fuligni
+- Francesco Mannino 
+- Beatrice Ballabio
+- Paolo Campari
+- Davide Brignoli
+- Sara Morandini
+- Jacopo Guerini + 1
+- Emanuele Zaccaria + 1
+- Fernando Carta
+- Simone Lucarelli
+- Rima Njem
+- Francesco Santantonio
+- Martina Zampini
+- Guido Provvidenza
+- Benedetta Costanzi
+- Martina Marcantelli
+- Gabriele Bindi
+- Barbanera
+- Mamo
+- Pineta
+- Tasso 
+- Mirko Sorriso
+- Amy Borragine
+- Valerio Urbani
+- Gabriele Cavalletti
+- Elena Grazioli
+- Giulio Tarlati
+- Simone di Fresco
+- Lucia
+- Andreas di Fresco
+- Carla Messini
+- Massimo Giarelli
+- Gabriele Giarelli
+- Martina Chinello
+- Sara Giarelli
+- Lorenzo Giarelli
+- Isora Poggesi
+- Carlo Messini
+- Anna
+- Francesco Messini
+- Silvia
+- Alberto Messini
+- Noemi 
+- Lucrezia Messini
+- Marta Messini
+- Giuseppe Pisano
+- Ilaria Pisano
+- Andrea Biagini + 1
+- Camilla Pantaleoni
+- Federico Massaccesi
+- Ludovica Paradisi
+- Alessio Cambiotti
+- Marco Fiorucci
+- Patrizia Bruni
+- Matteo Fiorucci
+- Sara Rosini
+- Noemi Fiorucci
+- Elisa Fiorucci
+- Roberta Fiorucci
+- Lorena Fiorucci
+- Francesco Lattanzi
+- Alessia Giombolini
+- Tiziana Testa
+- Vincenzo Gionangeli
+- Michela Bruno
+- Gianluca de Lorenzo
+- Riccardo de Lorenzo
+- Nicolò de Lorenzo
+- Diletta Bigini
+- Giovanni Buini
+- Anna Agostinelli
+- Michele Meniconi
+- Lorenzo Casuscelli
+- Nicolò Poltroneri
+- Marta Pero
+- Lena Schepers
+- Veronica Benedetti
+- Lorenzo Catanzani
+- Lavinia Gigliarelli
+- Francesco Marsili
+- Linda Bachiorri
+- Matteo Bernardini
+- Amaia Pelucca
+- Lorenzo Moscatelli
+- Anna Chiara Dozzini
+- Gregorio Briatico
+- Claudia Russo
+- Alessandro Busco
+- Paolo Busco
+- Martina Bigagli
+- Stefania Azzerboni
+- Elisabetta Meschini
+- Luca Battistoni
+- Cecilia Crisanti
+- Nicola Gramaccioni
+- Lucia Galletti
+- Luisa Tini
+- Ambra Gargiulo
+- Angelo d'Abondo
+- Daniela Mazzella
+- Riccardo Concia
+- Cesare Coppe
+- Giulia Vinicola
+- Francesco
+- Elena Mariani
+- Simone Ossola
+- Diego Ossola
+- Martina Saladini
+- Pedro 
+- Diego
+- Andrea Patiti
+- Federico Patiti
+- Valentina Greco
+- Filippo Patiti
+- Roberto Giaimo
+- Arianna
+- Fabio Giaimo
+- Mauro Patiti
+- Francesca Orfei
+- Sergio Malinconici
+- Carla Castrini
+- Aaron Malinconici
+- Cristina Salari

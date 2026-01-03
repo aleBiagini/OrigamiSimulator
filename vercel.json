@@ -1,4 +1,10 @@
 {
+  "rewrites": [
+    {
+      "source": "/lista-invitati",
+      "destination": "/lista-invitati.html"
+    }
+  ],
   "headers": [
     {
       "source": "/assets/(.*)",

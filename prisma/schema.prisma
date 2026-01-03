@@ -1,0 +1,46 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model Guest {
+  id            Int            @id @default(autoincrement())
+  name          String         @unique @db.NVarChar(255)
+  email         String?        @db.NVarChar(255)
+  registration  Registration?
+
+  @@map("guests")
+}
+
+model Registration {
+  id                        Int              @id @default(autoincrement())
+  guestId                   Int              @unique @map("guest_id")
+  attending                 Boolean          @default(true)
+  plusOneName               String?          @map("plus_one_name") @db.NVarChar(255)
+  dietaryPreference         String           @default("nessuna") @map("dietary_preference") @db.NVarChar(50)
+  dietaryNotes              String?          @map("dietary_notes") @db.NVarChar(500)
+  plusOneDietaryPreference  String?          @map("plus_one_dietary_preference") @db.NVarChar(50)
+  plusOneDietaryNotes       String?          @map("plus_one_dietary_notes") @db.NVarChar(500)
+  registeredAt              DateTime         @default(now()) @map("registered_at")
+  
+  guest                     Guest            @relation(fields: [guestId], references: [id], onDelete: Cascade)
+  familyMembers             FamilyMember[]
+
+  @@map("registrations")
+}
+
+model FamilyMember {
+  id                Int          @id @default(autoincrement())
+  registrationId    Int          @map("registration_id")
+  name              String       @db.NVarChar(255)
+  dietaryPreference String       @default("nessuna") @map("dietary_preference") @db.NVarChar(50)
+  dietaryNotes      String?      @map("dietary_notes") @db.NVarChar(500)
+  
+  registration      Registration @relation(fields: [registrationId], references: [id], onDelete: Cascade)
+
+  @@map("family_members")
+}
