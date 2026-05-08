@@ -85,13 +85,13 @@
         }
 
         .nav-btn {
-            padding: 12px 28px;
+            padding: 14px 34px;
             font-family: 'Alex Brush', cursive;
-            font-size: 24px;
+            font-size: 30px;
             color: #1c1c1c;
             background: rgba(255, 255, 255, 0.9);
             border: 1px solid rgba(139, 115, 85, 0.4);
-            border-radius: 30px;
+            border-radius: 36px;
             cursor: pointer;
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
@@ -99,8 +99,8 @@
         }
 
         #nav-toggle {
-            font-size: 34px;
-            padding: 16px 40px;
+            font-size: 42px;
+            padding: 18px 48px;
         }
 
         .nav-btn:hover {
@@ -112,8 +112,8 @@
         .nav-submenu {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 12px;
+            margin-bottom: 18px;
             opacity: 0;
             max-height: 0;
             overflow: hidden;
@@ -123,13 +123,13 @@
 
         .nav-submenu.expanded {
             opacity: 1;
-            max-height: 300px;
+            max-height: 400px;
             pointer-events: auto;
         }
 
         .nav-submenu .nav-btn {
-            font-size: 20px;
-            padding: 10px 24px;
+            font-size: 26px;
+            padding: 12px 30px;
         }
 
         @media (max-width: 768px) {
@@ -138,17 +138,18 @@
             }
 
             .nav-btn {
-                font-size: 20px;
-                padding: 10px 24px;
+                font-size: 24px;
+                padding: 12px 28px;
             }
 
             #nav-toggle {
-                font-size: 28px;
-                padding: 14px 32px;
+                font-size: 32px;
+                padding: 14px 36px;
             }
 
             .nav-submenu .nav-btn {
-                font-size: 18px;
+                font-size: 22px;
+                padding: 10px 26px;
             }
         }
 
@@ -192,19 +193,19 @@
 
         .maps-link {
             position: fixed;
-            top: 20px;
+            bottom: 62%;
             left: 50%;
-            transform: translateX(-50%) translateY(-20px);
+            transform: translateX(-50%) translateY(20px);
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            padding: 10px 22px;
+            gap: 10px;
+            padding: 14px 34px;
             font-family: 'Alex Brush', cursive;
-            font-size: 22px;
+            font-size: 30px;
             color: #1c1c1c;
             background: rgba(255, 255, 255, 0.92);
             border: 1px solid rgba(139, 115, 85, 0.4);
-            border-radius: 30px;
+            border-radius: 36px;
             text-decoration: none;
             cursor: pointer;
             z-index: 100;
@@ -227,20 +228,36 @@
         }
 
         .maps-link svg {
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             fill: #1c1c1c;
+        }
+
+        button.maps-link {
+            font: inherit;
+            font-family: 'Alex Brush', cursive;
+            font-size: 30px;
+            outline: none;
+        }
+
+        .iban-copy.copied {
+            background: rgba(220, 240, 220, 0.95);
         }
 
         @media (max-width: 768px) {
             .maps-link {
-                font-size: 18px;
-                padding: 8px 18px;
+                font-size: 24px;
+                padding: 12px 28px;
+                bottom: 58%;
             }
 
             .maps-link svg {
-                width: 18px;
-                height: 18px;
+                width: 20px;
+                height: 20px;
+            }
+
+            button.maps-link {
+                font-size: 24px;
             }
         }
 
@@ -593,8 +610,15 @@
         <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M12 2C7.589 2 4 5.589 4 9.995 4 15.991 11.246 21.49 11.555 21.721a.75.75 0 0 0 .89 0C12.754 21.49 20 15.991 20 9.995 20 5.589 16.411 2 12 2zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
         </svg>
-        Apri in Google Maps
+        google maps
     </a>
+
+    <button type="button" class="maps-link iban-copy" id="iban-copy" data-iban="IT56F0366901600908008901241">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M16 1H4a2 2 0 0 0-2 2v14h2V3h12V1zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 16H8V7h11v14z"/>
+        </svg>
+        <span class="iban-copy-label">copia iban</span>
+    </button>
 
     <div id="youtube-audio-player"></div>
 
@@ -743,6 +767,7 @@
         function openRsvpForm() {
             document.getElementById('nav-submenu').classList.remove('expanded');
             document.getElementById('maps-link').classList.remove('visible');
+            document.getElementById('iban-copy').classList.remove('visible');
             document.getElementById('rsvp-overlay').classList.add('visible');
             document.getElementById('rsvp-form').reset();
             document.getElementById('rsvp-message').className = 'rsvp-message';
@@ -1309,6 +1334,7 @@ function showDoveQuando() {
     }
 
     document.getElementById('maps-link').classList.add('visible');
+    document.getElementById('iban-copy').classList.remove('visible');
 }
 
 // Function to create texture with "Lista Nozze" content
@@ -1402,6 +1428,10 @@ function showListaNozze() {
     }
 
     document.getElementById('maps-link').classList.remove('visible');
+    const ibanBtn = document.getElementById('iban-copy');
+    ibanBtn.classList.add('visible');
+    ibanBtn.classList.remove('copied');
+    ibanBtn.querySelector('.iban-copy-label').textContent = 'copia iban';
 }
 
 // Function to show Home (first message)
@@ -1416,7 +1446,46 @@ function showHome() {
     }
 
     document.getElementById('maps-link').classList.remove('visible');
+    document.getElementById('iban-copy').classList.remove('visible');
 }
+
+// Copy IBAN to clipboard
+document.getElementById('iban-copy').addEventListener('click', function() {
+    const iban = this.dataset.iban;
+    const label = this.querySelector('.iban-copy-label');
+    const restore = () => {
+        label.textContent = 'copia iban';
+        this.classList.remove('copied');
+    };
+    const onSuccess = () => {
+        label.textContent = 'iban copiato';
+        this.classList.add('copied');
+        clearTimeout(this._ibanTimer);
+        this._ibanTimer = setTimeout(restore, 2200);
+    };
+    const onFail = () => {
+        label.textContent = 'copia manualmente';
+        clearTimeout(this._ibanTimer);
+        this._ibanTimer = setTimeout(restore, 2200);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(iban).then(onSuccess).catch(onFail);
+    } else {
+        try {
+            const ta = document.createElement('textarea');
+            ta.value = iban;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            onSuccess();
+        } catch (e) {
+            onFail();
+        }
+    }
+});
 
     // Load wisteria SVG for the invitation
         let wisteriaImage = null;
