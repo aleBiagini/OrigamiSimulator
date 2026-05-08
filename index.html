@@ -98,6 +98,11 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
+        #nav-toggle {
+            font-size: 34px;
+            padding: 16px 40px;
+        }
+
         .nav-btn:hover {
             background: rgba(255, 255, 255, 1);
             transform: translateY(-2px);
@@ -135,6 +140,11 @@
             .nav-btn {
                 font-size: 20px;
                 padding: 10px 24px;
+            }
+
+            #nav-toggle {
+                font-size: 28px;
+                padding: 14px 32px;
             }
 
             .nav-submenu .nav-btn {
@@ -178,6 +188,60 @@
             width: 22px;
             height: 22px;
             fill: #1c1c1c;
+        }
+
+        .maps-link {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-20px);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 22px;
+            font-family: 'Alex Brush', cursive;
+            font-size: 22px;
+            color: #1c1c1c;
+            background: rgba(255, 255, 255, 0.92);
+            border: 1px solid rgba(139, 115, 85, 0.4);
+            border-radius: 30px;
+            text-decoration: none;
+            cursor: pointer;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease, transform 0.4s ease, background 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .maps-link.visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .maps-link:hover {
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .maps-link svg {
+            width: 20px;
+            height: 20px;
+            fill: #1c1c1c;
+        }
+
+        @media (max-width: 768px) {
+            .maps-link {
+                font-size: 18px;
+                padding: 8px 18px;
+            }
+
+            .maps-link svg {
+                width: 18px;
+                height: 18px;
+            }
         }
 
         /* RSVP Form Overlay */
@@ -522,8 +586,15 @@
             <button class="nav-btn" onclick="openRsvpForm()">Conferma Partecipazione</button>
             <button class="nav-btn" onclick="showListaNozze()">Lista Nozze</button>
         </div>
-        <button class="nav-btn" id="nav-toggle" onclick="document.getElementById('nav-submenu').classList.toggle('expanded')">Conferma partecipazione e info</button>
+        <button class="nav-btn" id="nav-toggle" onclick="document.getElementById('nav-submenu').classList.toggle('expanded')">Tutte le informazioni</button>
     </div>
+
+    <a class="maps-link" id="maps-link" href="https://maps.app.goo.gl/5iqbUs6yGNmSKjBn8" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 2C7.589 2 4 5.589 4 9.995 4 15.991 11.246 21.49 11.555 21.721a.75.75 0 0 0 .89 0C12.754 21.49 20 15.991 20 9.995 20 5.589 16.411 2 12 2zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+        </svg>
+        Apri in Google Maps
+    </a>
 
     <div id="youtube-audio-player"></div>
 
@@ -671,6 +742,7 @@
 
         function openRsvpForm() {
             document.getElementById('nav-submenu').classList.remove('expanded');
+            document.getElementById('maps-link').classList.remove('visible');
             document.getElementById('rsvp-overlay').classList.add('visible');
             document.getElementById('rsvp-form').reset();
             document.getElementById('rsvp-message').className = 'rsvp-message';
@@ -1235,6 +1307,8 @@ function showDoveQuando() {
         writtenTexture = createDoveQuandoTexture(paperColorImage, wisteriaImage);
         updatePaperMaterial();
     }
+
+    document.getElementById('maps-link').classList.add('visible');
 }
 
 // Function to create texture with "Lista Nozze" content
@@ -1326,6 +1400,8 @@ function showListaNozze() {
         writtenTexture = createListaNozzeTexture(paperColorImage, wisteriaImage);
         updatePaperMaterial();
     }
+
+    document.getElementById('maps-link').classList.remove('visible');
 }
 
 // Function to show Home (first message)
@@ -1338,6 +1414,8 @@ function showHome() {
         writtenTexture = createWrittenPaperTexture(paperColorImage, wisteriaImage);
         updatePaperMaterial();
     }
+
+    document.getElementById('maps-link').classList.remove('visible');
 }
 
     // Load wisteria SVG for the invitation
