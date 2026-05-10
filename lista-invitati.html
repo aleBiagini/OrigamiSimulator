@@ -583,6 +583,25 @@
             background: #218838;
         }
 
+        .print-btn {
+            padding: 12px 24px;
+            background: #5a6c7d;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 14px;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .print-btn:hover {
+            background: #46535f;
+        }
+
         .search-box {
             position: relative;
             flex: 1;
@@ -682,6 +701,162 @@
         .guest-card-actions .delete-btn {
             flex: 1;
             text-align: center;
+        }
+
+        #printArea {
+            display: none;
+        }
+
+        @media print {
+            body > *:not(#printArea) {
+                display: none !important;
+            }
+
+            body {
+                background: white !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+
+            #printArea {
+                display: block !important;
+                font-family: Georgia, serif;
+                color: #2c3e50;
+                padding: 0;
+                background: white;
+            }
+
+            #printArea h1 {
+                text-align: center;
+                color: #8b7355;
+                font-size: 26pt;
+                margin: 0 0 6px;
+            }
+
+            #printArea .print-subtitle {
+                text-align: center;
+                color: #555;
+                font-size: 12pt;
+                margin-bottom: 6px;
+                font-style: italic;
+            }
+
+            #printArea .print-intro {
+                text-align: center;
+                color: #444;
+                font-size: 11pt;
+                margin: 0 auto 22px;
+                max-width: 700px;
+            }
+
+            #printArea .print-totals {
+                border: 1px solid #8b7355;
+                border-radius: 8px;
+                padding: 16px;
+                margin-bottom: 24px;
+                background: #f9f6f2;
+                page-break-inside: avoid;
+            }
+
+            #printArea .print-totals h2 {
+                color: #8b7355;
+                font-size: 14pt;
+                margin: 0 0 12px;
+            }
+
+            #printArea .print-totals-grid {
+                display: grid;
+                grid-template-columns: repeat(5, 1fr);
+                gap: 10px;
+            }
+
+            #printArea .print-totals-item {
+                text-align: center;
+                padding: 10px 6px;
+                background: white;
+                border-radius: 6px;
+                border: 1px solid #e6dfd3;
+            }
+
+            #printArea .print-totals-item .num {
+                font-size: 22pt;
+                font-weight: bold;
+                color: #8b7355;
+                line-height: 1;
+            }
+
+            #printArea .print-totals-item .lab {
+                font-size: 9pt;
+                color: #555;
+                margin-top: 6px;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+
+            #printArea table {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 10.5pt;
+            }
+
+            #printArea th {
+                background: #8b7355 !important;
+                color: white !important;
+                padding: 9px 8px;
+                text-align: left;
+                font-size: 10.5pt;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            #printArea td {
+                padding: 7px 8px;
+                border-bottom: 1px solid #ddd;
+                vertical-align: top;
+            }
+
+            #printArea tr:nth-child(even) td {
+                background: #f9f6f2;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            #printArea .num-col {
+                text-align: center;
+                color: #888;
+                font-weight: bold;
+                width: 36px;
+            }
+
+            #printArea .diet-veg { color: #155724; font-weight: bold; }
+            #printArea .diet-vegan { color: #004085; font-weight: bold; }
+            #printArea .diet-allergy { color: #721c24; font-weight: bold; }
+            #printArea .diet-none { color: #555; }
+
+            #printArea .print-empty {
+                text-align: center;
+                padding: 40px;
+                color: #888;
+                font-style: italic;
+            }
+
+            #printArea .print-footer {
+                margin-top: 24px;
+                text-align: center;
+                font-size: 9pt;
+                color: #888;
+                border-top: 1px solid #e6dfd3;
+                padding-top: 12px;
+            }
+
+            #printArea table { page-break-inside: auto; }
+            #printArea tr { page-break-inside: avoid; page-break-after: auto; }
+            #printArea thead { display: table-header-group; }
+
+            @page {
+                size: A4;
+                margin: 1.5cm;
+            }
         }
 
         @media (max-width: 768px) {
@@ -833,6 +1008,14 @@
                 </svg>
                 Nuovo Invitato
             </button>
+            <button class="print-btn" onclick="printGuestList()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                    <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                    <rect x="6" y="14" width="12" height="8"></rect>
+                </svg>
+                Stampa Lista
+            </button>
         </div>
 
         <div class="guests-table-container">
@@ -858,6 +1041,8 @@
             <!-- Cards will be rendered here -->
         </div>
     </div>
+
+    <div id="printArea"></div>
 
     <!-- Add Guest Modal -->
     <div class="modal-overlay" id="addGuestModal">
@@ -1564,6 +1749,152 @@
                 closeAddGuestModal();
             }
         });
+
+        function buildPrintAttendees() {
+            const attendingGuests = allGuests.filter(g => g.registration && g.registration.attending === true);
+            const attendees = [];
+
+            attendingGuests.forEach(guest => {
+                const reg = guest.registration;
+                attendees.push({
+                    name: guest.name,
+                    relation: 'Invitato',
+                    group: guest.name,
+                    dietaryPreference: reg.dietaryPreference || 'nessuna',
+                    dietaryNotes: reg.dietaryNotes || ''
+                });
+                if (reg.plusOneName) {
+                    attendees.push({
+                        name: reg.plusOneName,
+                        relation: 'Accompagnatore di ' + guest.name,
+                        group: guest.name,
+                        dietaryPreference: reg.plusOneDietaryPreference || 'nessuna',
+                        dietaryNotes: reg.plusOneDietaryNotes || ''
+                    });
+                }
+                if (reg.familyMembers && reg.familyMembers.length > 0) {
+                    reg.familyMembers.forEach(fm => {
+                        attendees.push({
+                            name: fm.name,
+                            relation: 'Familiare di ' + guest.name,
+                            group: guest.name,
+                            dietaryPreference: fm.dietaryPreference || 'nessuna',
+                            dietaryNotes: fm.dietaryNotes || ''
+                        });
+                    });
+                }
+            });
+
+            attendees.sort((a, b) => {
+                const groupCmp = a.group.localeCompare(b.group, 'it', { sensitivity: 'base' });
+                if (groupCmp !== 0) return groupCmp;
+                if (a.relation === 'Invitato') return -1;
+                if (b.relation === 'Invitato') return 1;
+                return a.name.localeCompare(b.name, 'it', { sensitivity: 'base' });
+            });
+
+            return attendees;
+        }
+
+        function el(tag, className, text) {
+            const e = document.createElement(tag);
+            if (className) e.className = className;
+            if (text !== undefined && text !== null) e.textContent = String(text);
+            return e;
+        }
+
+        function buildTotalsItem(num, label) {
+            const item = el('div', 'print-totals-item');
+            item.appendChild(el('div', 'num', num));
+            item.appendChild(el('div', 'lab', label));
+            return item;
+        }
+
+        function printGuestList() {
+            const attendees = buildPrintAttendees();
+            const totals = {
+                totale: attendees.length,
+                nessuna: attendees.filter(a => a.dietaryPreference === 'nessuna').length,
+                vegetariano: attendees.filter(a => a.dietaryPreference === 'vegetariano').length,
+                vegano: attendees.filter(a => a.dietaryPreference === 'vegano').length,
+                allergie: attendees.filter(a => a.dietaryPreference === 'allergie').length
+            };
+
+            const dietLabels = {
+                'nessuna': { text: 'Nessuna', cls: 'diet-none' },
+                'vegetariano': { text: 'Vegetariano', cls: 'diet-veg' },
+                'vegano': { text: 'Vegano', cls: 'diet-vegan' },
+                'allergie': { text: 'Allergie / Intolleranze', cls: 'diet-allergy' }
+            };
+
+            const printArea = document.getElementById('printArea');
+            printArea.innerHTML = '';
+
+            printArea.appendChild(el('h1', null, 'Lista Invitati'));
+            printArea.appendChild(el('p', 'print-subtitle', 'Matrimonio di Alessandro e Simona — 1 Giugno 2026'));
+            printArea.appendChild(el('p', 'print-intro', 'Elenco completo dei partecipanti confermati con relative preferenze alimentari, da utilizzare come riferimento per la cerimonia e il ricevimento.'));
+
+            const totalsBox = el('div', 'print-totals');
+            totalsBox.appendChild(el('h2', null, 'Riepilogo per categoria'));
+            const totalsGrid = el('div', 'print-totals-grid');
+            totalsGrid.appendChild(buildTotalsItem(totals.totale, 'Totale Partecipanti'));
+            totalsGrid.appendChild(buildTotalsItem(totals.nessuna, 'Nessuna preferenza'));
+            totalsGrid.appendChild(buildTotalsItem(totals.vegetariano, 'Vegetariani'));
+            totalsGrid.appendChild(buildTotalsItem(totals.vegano, 'Vegani'));
+            totalsGrid.appendChild(buildTotalsItem(totals.allergie, 'Allergie / Intolleranze'));
+            totalsBox.appendChild(totalsGrid);
+            printArea.appendChild(totalsBox);
+
+            if (attendees.length === 0) {
+                printArea.appendChild(el('div', 'print-empty', 'Nessun partecipante confermato al momento.'));
+            } else {
+                const table = el('table');
+                const thead = el('thead');
+                const headRow = el('tr');
+                const headers = [
+                    { text: '#', cls: 'num-col' },
+                    { text: 'Nome' },
+                    { text: 'Gruppo' },
+                    { text: 'Preferenza Alimentare' },
+                    { text: 'Note Alimentari' }
+                ];
+                headers.forEach(h => headRow.appendChild(el('th', h.cls || null, h.text)));
+                thead.appendChild(headRow);
+                table.appendChild(thead);
+
+                const tbody = el('tbody');
+                attendees.forEach((p, i) => {
+                    const tr = el('tr');
+                    tr.appendChild(el('td', 'num-col', i + 1));
+
+                    const nameCell = el('td');
+                    nameCell.appendChild(el('strong', null, p.name));
+                    tr.appendChild(nameCell);
+
+                    tr.appendChild(el('td', null, p.relation));
+
+                    const dietCell = el('td');
+                    const diet = dietLabels[p.dietaryPreference] || { text: p.dietaryPreference, cls: '' };
+                    dietCell.appendChild(el('span', diet.cls, diet.text));
+                    tr.appendChild(dietCell);
+
+                    tr.appendChild(el('td', null, p.dietaryNotes ? p.dietaryNotes : '—'));
+                    tbody.appendChild(tr);
+                });
+                table.appendChild(tbody);
+                printArea.appendChild(table);
+            }
+
+            const printDate = new Date().toLocaleDateString('it-IT', {
+                day: '2-digit', month: '2-digit', year: 'numeric',
+                hour: '2-digit', minute: '2-digit'
+            });
+            printArea.appendChild(el('p', 'print-footer', 'Stampato il ' + printDate));
+
+            setTimeout(function() {
+                window.print();
+            }, 100);
+        }
     </script>
 </body>
 </html>
