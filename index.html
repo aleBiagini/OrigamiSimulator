@@ -8,8 +8,14 @@
     <meta name="description" content="Matrimonio di Alessandro e Simona - Conferma la tua partecipazione al nostro giorno speciale">
     <meta property="og:title" content="Alessandro e Simona">
     <meta property="og:description" content="Matrimonio di Alessandro e Simona - Conferma la tua partecipazione al nostro giorno speciale">
-    <meta property="og:image" content="/assets/wisteria.svg">
+    <meta property="og:image" content="/assets/reminder.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1240">
+    <meta property="og:image:height" content="1748">
+    <meta property="og:image:alt" content="Courtesy reminder - Simona & Alessandro - 1 Giugno 2026">
     <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="/assets/reminder.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
@@ -193,7 +199,7 @@
 
         .maps-link {
             position: fixed;
-            bottom: 62%;
+            bottom: 20%;
             left: 50%;
             transform: translateX(-50%) translateY(20px);
             display: inline-flex;
@@ -248,7 +254,7 @@
             .maps-link {
                 font-size: 24px;
                 padding: 12px 28px;
-                bottom: 58%;
+                bottom: 30%;
             }
 
             .maps-link svg {
@@ -603,7 +609,7 @@
             <button class="nav-btn" onclick="openRsvpForm()">Conferma Partecipazione</button>
             <button class="nav-btn" onclick="showListaNozze()">Lista Nozze</button>
         </div>
-        <button class="nav-btn" id="nav-toggle" onclick="document.getElementById('nav-submenu').classList.toggle('expanded')">Tutte le informazioni</button>
+        <button class="nav-btn" id="nav-toggle" onclick="toggleNavMenu()">Tutte le informazioni</button>
     </div>
 
     <a class="maps-link" id="maps-link" href="https://maps.app.goo.gl/5iqbUs6yGNmSKjBn8" target="_blank" rel="noopener noreferrer">
@@ -779,6 +785,7 @@
 
         function closeRsvpForm() {
             document.getElementById('rsvp-overlay').classList.remove('visible');
+            restoreOverlayButtons();
         }
 
         function toggleDietaryNotes() {
@@ -1306,9 +1313,9 @@ function createDoveQuandoTexture(baseImage, wisteriaImage) {
     ctx.font = '400 100px "Alex Brush", cursive';
     ctx.fillText("Piegaro - vocabolo Crocicchia", centerX, yPos);
     
-    yPos += 180;
+    yPos += 220;
     
-    ctx.font = '600 140px "Alex Brush", cursive';
+    ctx.font = '600 110px "Alex Brush", cursive';
     ctx.fillText("ore 17.30", centerX, yPos);
 
     // 5. Create Texture
@@ -1322,6 +1329,27 @@ function createDoveQuandoTexture(baseImage, wisteriaImage) {
     return tex;
 }
 
+let currentView = 'home';
+
+function toggleNavMenu() {
+    const submenu = document.getElementById('nav-submenu');
+    const wasExpanded = submenu.classList.contains('expanded');
+    submenu.classList.toggle('expanded');
+    if (!wasExpanded) {
+        document.getElementById('maps-link').classList.remove('visible');
+        document.getElementById('iban-copy').classList.remove('visible');
+    } else {
+        restoreOverlayButtons();
+    }
+}
+
+function restoreOverlayButtons() {
+    const mapsBtn = document.getElementById('maps-link');
+    const ibanBtn = document.getElementById('iban-copy');
+    mapsBtn.classList.toggle('visible', currentView === 'dove');
+    ibanBtn.classList.toggle('visible', currentView === 'lista');
+}
+
 // Function to show "Dove e Quando" content
 function showDoveQuando() {
     // Close submenu
@@ -1333,6 +1361,7 @@ function showDoveQuando() {
         updatePaperMaterial();
     }
 
+    currentView = 'dove';
     document.getElementById('maps-link').classList.add('visible');
     document.getElementById('iban-copy').classList.remove('visible');
 }
@@ -1427,6 +1456,7 @@ function showListaNozze() {
         updatePaperMaterial();
     }
 
+    currentView = 'lista';
     document.getElementById('maps-link').classList.remove('visible');
     const ibanBtn = document.getElementById('iban-copy');
     ibanBtn.classList.add('visible');
@@ -1445,6 +1475,7 @@ function showHome() {
         updatePaperMaterial();
     }
 
+    currentView = 'home';
     document.getElementById('maps-link').classList.remove('visible');
     document.getElementById('iban-copy').classList.remove('visible');
 }
