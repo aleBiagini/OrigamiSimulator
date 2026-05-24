@@ -410,7 +410,7 @@
 
             #printArea {
                 display: block !important;
-                font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                font-family: 'Alex Brush', cursive;
                 color: #111;
                 background: white;
                 -webkit-print-color-adjust: exact;
@@ -430,22 +430,12 @@
                 break-after: auto;
             }
 
-            #printArea .print-couple {
-                font-family: 'Alex Brush', cursive;
-                font-size: 52pt;
-                font-weight: 400;
-                text-align: center;
-                margin: 0 0 10px;
-                color: #111;
-            }
-
             #printArea .print-subtitle {
                 text-align: center;
-                font-size: 9pt;
-                letter-spacing: 0.35em;
-                text-transform: uppercase;
+                font-size: 16pt;
+                letter-spacing: 0.15em;
                 color: #333;
-                margin: 0 0 36px;
+                margin: 0 0 28px;
             }
 
             #printArea .print-table-wrap {
@@ -478,8 +468,9 @@
             }
 
             #printArea .print-name {
-                font-size: 8.5pt;
-                line-height: 1.45;
+                font-family: 'Alex Brush', cursive;
+                font-size: 15pt;
+                line-height: 1.35;
                 color: #111;
                 break-inside: avoid;
             }
@@ -493,9 +484,9 @@
             }
 
             #printArea .print-spine span {
-                font-size: 7pt;
-                letter-spacing: 0.12em;
-                text-transform: uppercase;
+                font-family: 'Alex Brush', cursive;
+                font-size: 13pt;
+                letter-spacing: 0.08em;
                 color: #444;
                 text-align: center;
                 line-height: 1.3;
@@ -503,9 +494,8 @@
 
             #printArea .print-footer {
                 text-align: center;
-                font-size: 8pt;
-                letter-spacing: 0.35em;
-                text-transform: uppercase;
+                font-size: 14pt;
+                letter-spacing: 0.12em;
                 color: #333;
                 margin-top: auto;
                 padding-top: 40px;
@@ -844,7 +834,6 @@
         function renderPrintPage(tableNum, tKey) {
             return `
                 <div class="print-page">
-                    <h1 class="print-couple">Alessandro &amp; Simona</h1>
                     <p class="print-subtitle">1 Giugno 2026</p>
                     <div class="print-table-wrap">
                         <div class="print-table">
@@ -859,9 +848,11 @@
         }
 
         function printSeatingChart() {
-            document.getElementById('printArea').innerHTML =
-                renderPrintPage(1, 't1') + renderPrintPage(2, 't2');
-            setTimeout(() => window.print(), 100);
+            document.fonts.ready.then(() => {
+                document.getElementById('printArea').innerHTML =
+                    renderPrintPage(1, 't1') + renderPrintPage(2, 't2');
+                setTimeout(() => window.print(), 100);
+            });
         }
 
         init();
