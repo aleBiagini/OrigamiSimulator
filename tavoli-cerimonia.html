@@ -98,122 +98,146 @@
 
         main {
             padding: 0 24px 40px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            max-width: 1600px;
+            max-width: 1800px;
             margin: 0 auto;
         }
 
-        @media (max-width: 900px) {
-            main { grid-template-columns: 1fr; }
+        .tables-stage {
+            display: flex;
+            gap: 32px;
+            align-items: stretch;
+            margin-bottom: 24px;
         }
 
-        .table-panel {
+        @media (max-width: 1100px) {
+            .tables-stage {
+                flex-direction: column;
+                gap: 24px;
+            }
+        }
+
+        .imperial-table {
+            flex: 1;
+            min-width: 0;
             background: white;
             border-radius: 14px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
             overflow: hidden;
         }
 
         .table-panel-header {
-            background: linear-gradient(135deg, #8b7355, #6d5a44);
+            background: #8b7355;
             color: white;
-            padding: 16px 20px;
+            padding: 12px 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-shrink: 0;
         }
 
         .table-panel-header h2 {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: normal;
         }
 
         .table-count {
             background: rgba(255,255,255,0.2);
-            padding: 4px 12px;
+            padding: 3px 10px;
             border-radius: 20px;
-            font-size: 13px;
+            font-size: 12px;
         }
 
-        .imperial-visual {
-            padding: 16px 20px 8px;
-            text-align: center;
+        .table-layout {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 0;
+            padding: 16px 12px;
+            min-height: 400px;
+        }
+
+        .table-spine {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 36px;
+            margin: 0 8px;
         }
 
         .capotavola-label {
-            font-size: 11px;
-            color: #999;
+            font-size: 9px;
+            color: #aaa;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+            padding: 6px 0;
+            flex-shrink: 0;
         }
 
         .table-surface {
-            height: 12px;
-            background: linear-gradient(180deg, #a08060, #7a6048);
+            flex: 1;
+            width: 100%;
+            min-height: 120px;
+            background: #d4c4b0;
+            border: 1px solid #b8a890;
             border-radius: 4px;
-            margin: 8px 0;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
         }
 
-        .side-section {
-            padding: 12px 16px;
-        }
-
-        .side-section + .side-section {
-            border-top: 2px dashed #e8e0d5;
-        }
-
-        .side-label {
-            font-size: 12px;
-            color: #8b7355;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 10px;
+        .seat-column {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
+            min-width: 0;
         }
 
-        .side-count {
-            color: #999;
-            font-size: 11px;
-            text-transform: none;
-            letter-spacing: 0;
+        .seat-column.left .guest-chip {
+            flex-direction: row-reverse;
+            text-align: right;
+        }
+
+        .seat-column.left .guest-chip .num {
+            text-align: left;
+        }
+
+        .seat-column.left .guest-chip .tags {
+            justify-content: flex-end;
         }
 
         .seat-list {
-            min-height: 60px;
+            flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 4px;
+            min-height: 80px;
         }
 
         .seat-list.drag-over {
-            background: rgba(139,115,85,0.08);
-            border-radius: 8px;
+            background: rgba(139,115,85,0.06);
+            border-radius: 6px;
             outline: 2px dashed #8b7355;
-            outline-offset: 4px;
+            outline-offset: 2px;
         }
 
         .guest-chip {
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 8px 12px;
+            gap: 6px;
+            padding: 5px 8px;
             background: #f9f6f2;
             border: 1px solid #e6dfd3;
-            border-radius: 8px;
+            border-radius: 4px;
             cursor: grab;
-            font-size: 13px;
-            transition: box-shadow 0.15s, transform 0.15s;
+            font-size: 12px;
+            line-height: 1.3;
+            transition: box-shadow 0.15s;
             user-select: none;
         }
 
         .guest-chip:hover {
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 6px rgba(0,0,0,0.1);
+            border-color: #c9b99a;
         }
 
         .guest-chip.dragging {
@@ -226,31 +250,33 @@
         }
 
         .guest-chip .num {
-            color: #bbb;
-            font-size: 11px;
-            min-width: 20px;
-            text-align: right;
+            color: #ccc;
+            font-size: 10px;
+            min-width: 16px;
+            flex-shrink: 0;
         }
 
         .guest-chip .name {
             flex: 1;
-            font-weight: 500;
+            min-width: 0;
+            word-break: break-word;
         }
 
         .tags {
             display: flex;
-            gap: 4px;
+            gap: 3px;
             flex-shrink: 0;
+            flex-wrap: wrap;
         }
 
         .tag {
-            font-size: 10px;
-            padding: 2px 6px;
-            border-radius: 4px;
+            font-size: 9px;
+            padding: 1px 4px;
+            border-radius: 3px;
             font-family: 'Segoe UI', sans-serif;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.3px;
+            letter-spacing: 0.2px;
         }
 
         .tag-seggiolone { background: #fff3cd; color: #856404; }
@@ -260,7 +286,6 @@
         .tag-gruppo { background: #f8d7da; color: #721c24; }
 
         .pool-section {
-            grid-column: 1 / -1;
             background: white;
             border-radius: 14px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.08);
@@ -329,12 +354,12 @@
         }
 
         .sync-panel {
-            grid-column: 1 / -1;
             background: #fff8e6;
             border: 1px solid #f0d78c;
             border-radius: 12px;
             padding: 16px 20px;
             font-size: 13px;
+            margin-bottom: 24px;
         }
 
         .sync-panel.ok {
@@ -363,7 +388,6 @@
         }
 
         .loading-screen {
-            grid-column: 1 / -1;
             text-align: center;
             padding: 60px 20px;
             color: #888;
@@ -383,14 +407,14 @@
         @media print {
             header, .toolbar, .stats-bar, .pool-section, .toast, .sync-panel { display: none !important; }
             body { background: white; }
-            main {
-                grid-template-columns: 1fr 1fr;
-                padding: 0;
-                gap: 16px;
+            .tables-stage {
+                flex-direction: row;
+                gap: 20px;
             }
-            .table-panel { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; }
-            .guest-chip { cursor: default; break-inside: avoid; }
+            .imperial-table { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; }
+            .guest-chip { cursor: default; break-inside: avoid; font-size: 10px; }
             .guest-chip .num::after { content: '.'; }
+            .table-surface { background: #e8e0d5 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         }
     </style>
 </head>
@@ -571,33 +595,23 @@
         function renderTable(num, tKey) {
             const total = countInTable(tKey);
             return `
-                <div class="table-panel" data-table="${tKey}">
+                <div class="imperial-table" data-table="${tKey}">
                     <div class="table-panel-header">
                         <h2>Tavolo ${num}</h2>
-                        <span class="table-count">${total} invitati</span>
+                        <span class="table-count">${total} posti</span>
                     </div>
-                    <div class="imperial-visual">
-                        <div class="capotavola-label">Capotavola</div>
-                    </div>
-                    <div class="side-section">
-                        <div class="side-label">
-                            Lato A
-                            <span class="side-count">${layout[tKey + 'a'].length} posti</span>
+                    <div class="table-layout">
+                        <div class="seat-column left">
+                            <div class="seat-list" data-zone="${tKey}a">${renderSide(tKey + 'a', layout[tKey + 'a'])}</div>
                         </div>
-                        <div class="seat-list" data-zone="${tKey}a">${renderSide(tKey + 'a', layout[tKey + 'a'])}</div>
-                    </div>
-                    <div class="imperial-visual">
-                        <div class="table-surface"></div>
-                    </div>
-                    <div class="side-section">
-                        <div class="side-label">
-                            Lato B
-                            <span class="side-count">${layout[tKey + 'b'].length} posti</span>
+                        <div class="table-spine">
+                            <div class="capotavola-label">Capotavola</div>
+                            <div class="table-surface"></div>
+                            <div class="capotavola-label">Capotavola</div>
                         </div>
-                        <div class="seat-list" data-zone="${tKey}b">${renderSide(tKey + 'b', layout[tKey + 'b'])}</div>
-                    </div>
-                    <div class="imperial-visual">
-                        <div class="capotavola-label">Capotavola</div>
+                        <div class="seat-column right">
+                            <div class="seat-list" data-zone="${tKey}b">${renderSide(tKey + 'b', layout[tKey + 'b'])}</div>
+                        </div>
                     </div>
                 </div>
             `;
@@ -607,8 +621,10 @@
             const main = document.getElementById('mainArea');
             main.innerHTML = `
                 ${renderSyncPanel()}
-                ${renderTable(1, 't1')}
-                ${renderTable(2, 't2')}
+                <div class="tables-stage">
+                    ${renderTable(1, 't1')}
+                    ${renderTable(2, 't2')}
+                </div>
                 <div class="pool-section">
                     <h3>Invitati non assegnati (${layout.pool.length})</h3>
                     <div class="pool-list seat-list" data-zone="pool">
