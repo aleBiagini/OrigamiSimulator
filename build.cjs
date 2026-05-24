@@ -145,6 +145,13 @@ async function build() {
         fs.copyFileSync(listaInvitatiPath, path.join(distDir, 'lista-invitati.html'));
         console.log('  -> dist/lista-invitati.html');
     }
+
+    // 7. Copy tavoli-cerimonia.html
+    const tavoliPath = path.join(srcDir, 'tavoli-cerimonia.html');
+    if (fs.existsSync(tavoliPath)) {
+        fs.copyFileSync(tavoliPath, path.join(distDir, 'tavoli-cerimonia.html'));
+        console.log('  -> dist/tavoli-cerimonia.html');
+    }
     
     // Note: API folder stays at root (Vercel serverless functions)
     // Note: vercel.json stays at root (Vercel config)

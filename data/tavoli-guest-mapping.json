@@ -1,0 +1,1556 @@
+{
+  "generatedAt": "2026-05-24T20:25:28.219Z",
+  "mapping": [
+    {
+      "photoName": "Isora Poggesi",
+      "dbName": "Isora Poggesi",
+      "personId": "g-48",
+      "type": "guest",
+      "guestId": 48,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Carla Messini",
+      "dbName": "Carla Messini",
+      "personId": "g-42",
+      "type": "guest",
+      "guestId": 42,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Massimo Giarella",
+      "dbName": "Massimo Giarelli",
+      "personId": "g-43",
+      "type": "guest",
+      "guestId": 43,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Sara Giarella",
+      "dbName": "Sara Giarelli",
+      "personId": "g-46",
+      "type": "guest",
+      "guestId": 46,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Lorenzo Giarella",
+      "dbName": "Lorenzo Giarelli",
+      "personId": "g-47",
+      "type": "guest",
+      "guestId": 47,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Gabriele Giarella",
+      "dbName": "Gabriele Giarelli",
+      "personId": "g-44",
+      "type": "guest",
+      "guestId": 44,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Martina Chinello",
+      "dbName": "Martina Chinello",
+      "personId": "g-45",
+      "type": "guest",
+      "guestId": 45,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Noemi Cuccoli",
+      "dbName": "Noemi Cuccoli",
+      "personId": "g-54",
+      "type": "guest",
+      "guestId": 54,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Alberto Messini",
+      "dbName": "Alberto Messini",
+      "personId": "g-53",
+      "type": "guest",
+      "guestId": 53,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Francesca Rose",
+      "dbName": "Francesca Rose",
+      "personId": "g-8",
+      "type": "guest",
+      "guestId": 8,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Giulio Papiani",
+      "dbName": "Giulio Papiani",
+      "personId": "g-10",
+      "type": "guest",
+      "guestId": 10,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Edoardo Papiani",
+      "dbName": "Edoardo Papiani",
+      "personId": "g-9",
+      "type": "guest",
+      "guestId": 9,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Marta Cheli",
+      "dbName": "Marta Cheli",
+      "personId": "g-6",
+      "type": "guest",
+      "guestId": 6,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Andrea Ghelardoni",
+      "dbName": "Andrea Ghelardoni",
+      "personId": "g-7",
+      "type": "guest",
+      "guestId": 7,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Alice Medda",
+      "dbName": "Alice Medda",
+      "personId": "g-11",
+      "type": "guest",
+      "guestId": 11,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Alessandra Fugni",
+      "dbName": "Alessandra Fuligni",
+      "personId": "g-12",
+      "type": "guest",
+      "guestId": 12,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Gabriele Bindi",
+      "dbName": "Gabriele Bindi",
+      "personId": "g-28",
+      "type": "guest",
+      "guestId": 28,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Simone Di Fresco",
+      "dbName": "Simone di Fresco",
+      "personId": "g-39",
+      "type": "guest",
+      "guestId": 39,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Valerio Urbani",
+      "dbName": "Valerio Urbani",
+      "personId": "g-35",
+      "type": "guest",
+      "guestId": 35,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Emanuele Zaccaria",
+      "dbName": "Emanuele Zaccaria",
+      "personId": "g-19",
+      "type": "guest",
+      "guestId": 19,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Jacopo Guerini",
+      "dbName": "Jacopo Guerini",
+      "personId": "g-18",
+      "type": "guest",
+      "guestId": 18,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Claudia Merati",
+      "dbName": "Claudia Merati",
+      "personId": "g-144",
+      "type": "guest",
+      "guestId": 144,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Claudia Russo",
+      "dbName": "Claudia Russo",
+      "personId": "g-98",
+      "type": "guest",
+      "guestId": 98,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Paolo Busco",
+      "dbName": "Paolo Busco",
+      "personId": "g-100",
+      "type": "guest",
+      "guestId": 100,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Alessandro Busco",
+      "dbName": "Alessandro Busco",
+      "personId": "g-99",
+      "type": "guest",
+      "guestId": 99,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Ludovica Paradisi",
+      "dbName": "Ludovica Paradisi",
+      "personId": "g-62",
+      "type": "guest",
+      "guestId": 62,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Alessio Cambiotti",
+      "dbName": "Alessio Cambiotti",
+      "personId": "g-63",
+      "type": "guest",
+      "guestId": 63,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Francesco Santani",
+      "dbName": "Francesco Santantonio",
+      "personId": "g-23",
+      "type": "guest",
+      "guestId": 23,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Martina Zampini",
+      "dbName": "Martina Zampini",
+      "personId": "g-24",
+      "type": "guest",
+      "guestId": 24,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Rina N'Jem",
+      "dbName": "Rima Njem",
+      "personId": "g-22",
+      "type": "guest",
+      "guestId": 22,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Simone Lucarelli",
+      "dbName": "Simone Lucarelli",
+      "personId": "g-21",
+      "type": "guest",
+      "guestId": 21,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Michela Mastroforti",
+      "dbName": "Michela Mastroforti",
+      "personId": "g-136",
+      "type": "guest",
+      "guestId": 136,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Carlo Messini",
+      "dbName": "Carlo Messini",
+      "personId": "g-49",
+      "type": "guest",
+      "guestId": 49,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Anna Nenci",
+      "dbName": "Anna Nenci",
+      "personId": "g-50",
+      "type": "guest",
+      "guestId": 50,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Marta Messini",
+      "dbName": "Marta Messini",
+      "personId": "g-56",
+      "type": "guest",
+      "guestId": 56,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Giuseppe Pisano",
+      "dbName": "Giuseppe Pisano",
+      "personId": "g-57",
+      "type": "guest",
+      "guestId": 57,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Ilaria Pisano",
+      "dbName": "Ilaria Pisano",
+      "personId": "g-58",
+      "type": "guest",
+      "guestId": 58,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Francesco Messini",
+      "dbName": "Francesco Messini",
+      "personId": "g-51",
+      "type": "guest",
+      "guestId": 51,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Lucrezia Messini",
+      "dbName": "Lucrezia Messini",
+      "personId": "g-55",
+      "type": "guest",
+      "guestId": 55,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Silvia Guerini",
+      "dbName": "Silvia Guerini",
+      "personId": "g-52",
+      "type": "guest",
+      "guestId": 52,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Paolo Sicignano",
+      "dbName": "Paolo Sicignano",
+      "personId": "g-2",
+      "type": "guest",
+      "guestId": 2,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Marina Bromo",
+      "dbName": "Marina Bromo",
+      "personId": "g-1",
+      "type": "guest",
+      "guestId": 1,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Matteo Sicignano",
+      "dbName": "Matteo Sicignano",
+      "personId": "g-3",
+      "type": "guest",
+      "guestId": 3,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Dario Romboli",
+      "dbName": "Dario Romboli",
+      "personId": "g-4",
+      "type": "guest",
+      "guestId": 4,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Diletta Menichetti",
+      "dbName": "Diletta Menichetti",
+      "personId": "g-5",
+      "type": "guest",
+      "guestId": 5,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Elena Grazioli",
+      "dbName": "Elena Grazioli",
+      "personId": "g-37",
+      "type": "guest",
+      "guestId": 37,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Giulio Tarlati",
+      "dbName": "Giulio Tarlati",
+      "personId": "g-38",
+      "type": "guest",
+      "guestId": 38,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Barbanera",
+      "dbName": "Barbanera",
+      "personId": "g-29",
+      "type": "guest",
+      "guestId": 29,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Tasso",
+      "dbName": "Tasso",
+      "personId": "g-32",
+      "type": "guest",
+      "guestId": 32,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Francesco Mannino",
+      "dbName": "Francesco Mannino",
+      "personId": "g-13",
+      "type": "guest",
+      "guestId": 13,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Beatrice Ballibio",
+      "dbName": "Beatrice Ballabio",
+      "personId": "g-14",
+      "type": "guest",
+      "guestId": 14,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Fabio Campana",
+      "dbName": "Paolo Campari",
+      "personId": "g-15",
+      "type": "guest",
+      "guestId": 15,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Davide Brignoli",
+      "dbName": "Davide Brignoli",
+      "personId": "g-16",
+      "type": "guest",
+      "guestId": 16,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Sara Morandini",
+      "dbName": "Sara Morandini",
+      "personId": "g-17",
+      "type": "guest",
+      "guestId": 17,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Agostino Donati",
+      "dbName": "Agostino Donati",
+      "personId": "g-142",
+      "type": "guest",
+      "guestId": 142,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Camilla Gardini",
+      "dbName": "Camilla Gardini",
+      "personId": "g-143",
+      "type": "guest",
+      "guestId": 143,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Anna Orioli",
+      "dbName": "Anna Orioli",
+      "personId": "g-152",
+      "type": "guest",
+      "guestId": 152,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Marco Porrozzi",
+      "dbName": "Marco Porrozzi",
+      "personId": "g-153",
+      "type": "guest",
+      "guestId": 153,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Camilla Pantaleoni",
+      "dbName": "Camilla Pantaleoni",
+      "personId": "g-60",
+      "type": "guest",
+      "guestId": 60,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Federico Massaccesi",
+      "dbName": "Federico Massaccesi",
+      "personId": "g-61",
+      "type": "guest",
+      "guestId": 61,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Benedetta Costanzi",
+      "dbName": "Benedetta Costanzi",
+      "personId": "g-26",
+      "type": "guest",
+      "guestId": 26,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Guido Provvidenza",
+      "dbName": "Guido Provvidenza",
+      "personId": "g-25",
+      "type": "guest",
+      "guestId": 25,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Giovanni Piccoli",
+      "dbName": "Giovanni Piccoli",
+      "personId": "g-137",
+      "type": "guest",
+      "guestId": 137,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Marco Fiorucci",
+      "dbName": "Marco Fiorucci",
+      "personId": "g-64",
+      "type": "guest",
+      "guestId": 64,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Patrizia Bruni",
+      "dbName": "Patrizia Bruni",
+      "personId": "g-65",
+      "type": "guest",
+      "guestId": 65,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Francesco Lattanzi",
+      "dbName": "Francesco Lattanzi",
+      "personId": "g-72",
+      "type": "guest",
+      "guestId": 72,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Lorena Fiorucci",
+      "dbName": "Lorena Fiorucci",
+      "personId": "g-71",
+      "type": "guest",
+      "guestId": 71,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Enea Biagini",
+      "dbName": "Enea Biagini",
+      "personId": "g-157",
+      "type": "guest",
+      "guestId": 157,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Valeria Ojeda",
+      "dbName": "Valeria Oleda",
+      "personId": "g-154",
+      "type": "guest",
+      "guestId": 154,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Matteo Fiorucci",
+      "dbName": "Matteo Fiorucci",
+      "personId": "g-66",
+      "type": "guest",
+      "guestId": 66,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Sara Rosini",
+      "dbName": "Sara Rosini",
+      "personId": "g-67",
+      "type": "guest",
+      "guestId": 67,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Elisa Fiorucci",
+      "dbName": "Elisa Fiorucci",
+      "personId": "g-69",
+      "type": "guest",
+      "guestId": 69,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Noemi Fiorucci",
+      "dbName": "Noemi Fiorucci",
+      "personId": "g-68",
+      "type": "guest",
+      "guestId": 68,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Roberta Fiorucci",
+      "dbName": "Roberta Fiorucci",
+      "personId": "g-70",
+      "type": "guest",
+      "guestId": 70,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Claudia Sensi",
+      "dbName": "Claudia Sensi",
+      "personId": "g-150",
+      "type": "guest",
+      "guestId": 150,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Flavia Sensi",
+      "dbName": "Flavia Sensi",
+      "personId": "g-151",
+      "type": "guest",
+      "guestId": 151,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Michela Bruno",
+      "dbName": "Michela Bruno",
+      "personId": "g-76",
+      "type": "guest",
+      "guestId": 76,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Nicolo' De Lorenzo",
+      "dbName": "Nicolò de Lorenzo",
+      "personId": "g-79",
+      "type": "guest",
+      "guestId": 79,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Riccardo De Lorenzo",
+      "dbName": "Riccardo de Lorenzo",
+      "personId": "g-78",
+      "type": "guest",
+      "guestId": 78,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Gianluca De Lorenzo",
+      "dbName": "Gianluca de Lorenzo",
+      "personId": "g-77",
+      "type": "guest",
+      "guestId": 77,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Giacomo Rufini",
+      "dbName": "Giacomo Rufini",
+      "personId": "g-147",
+      "type": "guest",
+      "guestId": 147,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Linda Carbonari",
+      "dbName": "Linda Carbonari",
+      "personId": "g-148",
+      "type": "guest",
+      "guestId": 148,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Nicola Gramaccioni",
+      "dbName": "Nicola Gramaccioni",
+      "personId": "g-106",
+      "type": "guest",
+      "guestId": 106,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Cecilia Crisanti",
+      "dbName": "Cecilia Crisanti",
+      "personId": "g-105",
+      "type": "guest",
+      "guestId": 105,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Marta Pero",
+      "dbName": "Marta Pero",
+      "personId": "g-86",
+      "type": "guest",
+      "guestId": 86,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Luisa Tini",
+      "dbName": "Luisa Tini",
+      "personId": "g-108",
+      "type": "guest",
+      "guestId": 108,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Giulia Vinicola",
+      "dbName": "Giulia Vinicola",
+      "personId": "g-114",
+      "type": "guest",
+      "guestId": 114,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Martina Saludini",
+      "dbName": "Martina Saladini",
+      "personId": "g-119",
+      "type": "guest",
+      "guestId": 119,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Diego Zahir",
+      "dbName": "Diego Zohair Saladini",
+      "personId": "g-121",
+      "type": "guest",
+      "guestId": 121,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Pedro Zoahir",
+      "dbName": "Pedro Zohair",
+      "personId": "g-120",
+      "type": "guest",
+      "guestId": 120,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Nicolo' Poltroniere",
+      "dbName": "Nicolò Poltroneri",
+      "personId": "g-85",
+      "type": "guest",
+      "guestId": 85,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Anna Agostinelli",
+      "dbName": "Anna Agostinelli",
+      "personId": "g-82",
+      "type": "guest",
+      "guestId": 82,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Alessia Giomboni",
+      "dbName": "Alessia Giombolini",
+      "personId": "g-73",
+      "type": "guest",
+      "guestId": 73,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Lorenzo Moscatelli",
+      "dbName": "Lorenzo Moscatelli",
+      "personId": "g-95",
+      "type": "guest",
+      "guestId": 95,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Amaia Pelucca",
+      "dbName": "Amaia Pelucca",
+      "personId": "g-94",
+      "type": "guest",
+      "guestId": 94,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Linda Bachiorri",
+      "dbName": "Linda Bachiorri",
+      "personId": "g-92",
+      "type": "guest",
+      "guestId": 92,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Matteo Bernardini",
+      "dbName": "Matteo Bernardini",
+      "personId": "g-93",
+      "type": "guest",
+      "guestId": 93,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Andrea Biagini",
+      "dbName": "Andrea Biagini",
+      "personId": "g-59",
+      "type": "guest",
+      "guestId": 59,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Alessandra",
+      "dbName": "Alessandra",
+      "personId": "g-141",
+      "type": "guest",
+      "guestId": 141,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Francesca Orfei",
+      "dbName": "Francesca Orfei",
+      "personId": "g-130",
+      "type": "guest",
+      "guestId": 130,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Mauro Patiti",
+      "dbName": "Mauro Patiti",
+      "personId": "g-129",
+      "type": "guest",
+      "guestId": 129,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Carla Castrini",
+      "dbName": "Carla Castrini",
+      "personId": "g-132",
+      "type": "guest",
+      "guestId": 132,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Sergio Malinconici",
+      "dbName": "Sergio Malinconici",
+      "personId": "g-131",
+      "type": "guest",
+      "guestId": 131,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Aaron Malinconici",
+      "dbName": "Aaron Malinconici",
+      "personId": "g-133",
+      "type": "guest",
+      "guestId": 133,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Alessio Malinconici",
+      "dbName": "Alessio Malinconici",
+      "personId": "g-145",
+      "type": "guest",
+      "guestId": 145,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Cristina Salari",
+      "dbName": "Cristina Salari",
+      "personId": "g-134",
+      "type": "guest",
+      "guestId": 134,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Roberto Giaimo",
+      "dbName": "Roberto Giaimo",
+      "personId": "g-126",
+      "type": "guest",
+      "guestId": 126,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Fabio Giaimo",
+      "dbName": "Fabio Giaimo",
+      "personId": "g-128",
+      "type": "guest",
+      "guestId": 128,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Arianna Felicioni",
+      "dbName": "Arianna Felicioni",
+      "personId": "g-127",
+      "type": "guest",
+      "guestId": 127,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Andrea Patiti",
+      "dbName": "Andrea Patiti",
+      "personId": "g-122",
+      "type": "guest",
+      "guestId": 122,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Caterina D'Alessandro",
+      "dbName": "Caterina D'Alessandro",
+      "personId": "g-140",
+      "type": "guest",
+      "guestId": 140,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Ambra Gargiulo",
+      "dbName": "Ambra Gargiulo",
+      "personId": "g-109",
+      "type": "guest",
+      "guestId": 109,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Angelo D'Arondo",
+      "dbName": "Angelo d'Abondo",
+      "personId": "g-110",
+      "type": "guest",
+      "guestId": 110,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Daniela Mazzella",
+      "dbName": "Daniela Mazzella",
+      "personId": "g-111",
+      "type": "guest",
+      "guestId": 111,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Riccardo Concia",
+      "dbName": "Riccardo Concia",
+      "personId": "g-112",
+      "type": "guest",
+      "guestId": 112,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Luca Battistoni",
+      "dbName": "Luca Battistoni",
+      "personId": "g-104",
+      "type": "guest",
+      "guestId": 104,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Elisabetta Meschini",
+      "dbName": "Elisabetta Meschini",
+      "personId": "g-103",
+      "type": "guest",
+      "guestId": 103,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Lucia Galletti",
+      "dbName": "Lucia Galletti",
+      "personId": "g-107",
+      "type": "guest",
+      "guestId": 107,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Diletta Bigini",
+      "dbName": "Diletta Bigini",
+      "personId": "g-80",
+      "type": "guest",
+      "guestId": 80,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Giovanni Buini",
+      "dbName": "Giovanni Buini",
+      "personId": "g-81",
+      "type": "guest",
+      "guestId": 81,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Cesare Coppe",
+      "dbName": "Cesare Coppe",
+      "personId": "g-113",
+      "type": "guest",
+      "guestId": 113,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Elena Mariani",
+      "dbName": "Elena Mariani",
+      "personId": "g-116",
+      "type": "guest",
+      "guestId": 116,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Diego Ossola",
+      "dbName": "Diego Ossola",
+      "personId": "g-118",
+      "type": "guest",
+      "guestId": 118,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Simone Ossola",
+      "dbName": "Simone Ossola",
+      "personId": "g-117",
+      "type": "guest",
+      "guestId": 117,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Lorenzo Casuscelli",
+      "dbName": "Lorenzo Casuscelli",
+      "personId": "g-84",
+      "type": "guest",
+      "guestId": 84,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Bianca Maria Ambrogio",
+      "dbName": "Bianca Maria Ambrogio",
+      "personId": "g-139",
+      "type": "guest",
+      "guestId": 139,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Annachiara Dozzini",
+      "dbName": "Anna Chiara Dozzini",
+      "personId": "g-96",
+      "type": "guest",
+      "guestId": 96,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Lavinia Giguarelli",
+      "dbName": "Lavinia Gigliarelli",
+      "personId": "g-90",
+      "type": "guest",
+      "guestId": 90,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Veronica Benedetti",
+      "dbName": "Veronica Benedetti",
+      "personId": "g-88",
+      "type": "guest",
+      "guestId": 88,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Lorenzo Catanzani",
+      "dbName": "Lorenzo Catanzani",
+      "personId": "g-89",
+      "type": "guest",
+      "guestId": 89,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "photoName": "Francesco Gauti",
+      "dbName": "Francesco Galati",
+      "personId": "g-149",
+      "type": "guest",
+      "guestId": 149,
+      "familyId": null,
+      "host": null
+    }
+  ],
+  "photoOnly": [
+    {
+      "photoName": "Elisa Brufani",
+      "personId": "local-elisa-brufani",
+      "dbName": null
+    },
+    {
+      "photoName": "Chantal Mersi",
+      "personId": "local-chantal-mersi",
+      "dbName": null
+    },
+    {
+      "photoName": "Samuele Ricciardi",
+      "personId": "local-samuele-ricciardi",
+      "dbName": null
+    }
+  ],
+  "dbOnly": [
+    {
+      "personId": "g-34",
+      "name": "Amy Borragine",
+      "type": "guest",
+      "guestId": 34,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "personId": "g-41",
+      "name": "Andreas di Fresco",
+      "type": "guest",
+      "guestId": 41,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "personId": "f-3",
+      "name": "Gabriele Malinconici",
+      "type": "family",
+      "guestId": 134,
+      "familyId": 3,
+      "host": "Cristina Salari"
+    },
+    {
+      "personId": "f-2",
+      "name": "Elena (neonata)",
+      "type": "family",
+      "guestId": 111,
+      "familyId": 2,
+      "host": "Daniela Mazzella"
+    },
+    {
+      "personId": "g-123",
+      "name": "Federico Patiti",
+      "type": "guest",
+      "guestId": 123,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "personId": "g-20",
+      "name": "Fernando Carta",
+      "type": "guest",
+      "guestId": 20,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "personId": "g-125",
+      "name": "Filippo Patiti",
+      "type": "guest",
+      "guestId": 125,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "personId": "g-115",
+      "name": "Francesco Adornetto",
+      "type": "guest",
+      "guestId": 115,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "personId": "g-91",
+      "name": "Francesco Marsili",
+      "type": "guest",
+      "guestId": 91,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "personId": "g-36",
+      "name": "Gabriele Cavalletti",
+      "type": "guest",
+      "guestId": 36,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "personId": "g-97",
+      "name": "Gregorio Briatico",
+      "type": "guest",
+      "guestId": 97,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "personId": "g-138",
+      "name": "Laura Rosi",
+      "type": "guest",
+      "guestId": 138,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "personId": "f-1",
+      "name": "Margherita",
+      "type": "family",
+      "guestId": 90,
+      "familyId": 1,
+      "host": "Lavinia Gigliarelli"
+    },
+    {
+      "personId": "g-87",
+      "name": "Lena Schepers",
+      "type": "guest",
+      "guestId": 87,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "personId": "g-40",
+      "name": "Lucia Perrone",
+      "type": "guest",
+      "guestId": 40,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "personId": "g-30",
+      "name": "Mamo",
+      "type": "guest",
+      "guestId": 30,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "personId": "g-101",
+      "name": "Martina Bigagli",
+      "type": "guest",
+      "guestId": 101,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "personId": "g-27",
+      "name": "Martina Marcantelli",
+      "type": "guest",
+      "guestId": 27,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "personId": "g-83",
+      "name": "Michele Meniconi",
+      "type": "guest",
+      "guestId": 83,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "personId": "g-33",
+      "name": "Mirko",
+      "type": "guest",
+      "guestId": 33,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "personId": "g-31",
+      "name": "Pineta",
+      "type": "guest",
+      "guestId": 31,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "personId": "g-135",
+      "name": "Pio",
+      "type": "guest",
+      "guestId": 135,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "personId": "g-102",
+      "name": "Stefania Azzerboni",
+      "type": "guest",
+      "guestId": 102,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "personId": "g-74",
+      "name": "Tiziana Testa",
+      "type": "guest",
+      "guestId": 74,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "personId": "g-124",
+      "name": "Valentina Greco",
+      "type": "guest",
+      "guestId": 124,
+      "familyId": null,
+      "host": null
+    },
+    {
+      "personId": "g-75",
+      "name": "Vincenzo Gionangeli",
+      "type": "guest",
+      "guestId": 75,
+      "familyId": null,
+      "host": null
+    }
+  ],
+  "defaultLayout": {
+    "t1a": [
+      "g-48",
+      "g-42",
+      "g-43",
+      "g-46",
+      "g-47",
+      "g-44",
+      "g-45",
+      "g-54",
+      "g-53",
+      "g-8",
+      "g-10",
+      "g-9",
+      "g-6",
+      "g-7",
+      "g-11",
+      "g-12",
+      "g-28",
+      "g-39",
+      "g-35",
+      "g-19",
+      "g-18",
+      "g-144",
+      "g-98",
+      "g-100",
+      "g-99",
+      "g-62",
+      "g-63",
+      "g-23",
+      "g-24",
+      "g-22",
+      "g-21",
+      "g-136",
+      "g-49"
+    ],
+    "t2a": [
+      "g-50",
+      "g-56",
+      "g-57",
+      "g-58",
+      "g-51",
+      "g-55",
+      "g-52",
+      "g-2",
+      "g-1",
+      "g-3",
+      "g-4",
+      "g-5",
+      "g-37",
+      "g-38",
+      "g-29",
+      "g-32",
+      "g-13",
+      "g-14",
+      "g-15",
+      "g-16",
+      "g-17",
+      "g-142",
+      "g-143",
+      "g-152",
+      "g-153",
+      "g-60",
+      "g-61",
+      "g-26",
+      "g-25",
+      "g-137",
+      "g-64",
+      "g-65",
+      "g-72"
+    ],
+    "t1b": [
+      "g-71",
+      "g-157",
+      "g-154",
+      "g-66",
+      "g-67",
+      "g-69",
+      "g-68",
+      "g-70",
+      "g-150",
+      "g-151",
+      "g-76",
+      "g-79",
+      "g-78",
+      "g-77",
+      "g-147",
+      "g-148",
+      "g-106",
+      "g-105",
+      "g-86",
+      "g-108",
+      "g-114",
+      "g-119",
+      "g-121",
+      "g-120",
+      "g-85",
+      "g-82",
+      "g-73",
+      "g-95",
+      "g-94",
+      "g-92",
+      "g-93",
+      "g-59",
+      "g-141",
+      "g-130"
+    ],
+    "t2b": [
+      "g-129",
+      "g-132",
+      "g-131",
+      "g-133",
+      "g-145",
+      "g-134",
+      "g-126",
+      "g-128",
+      "g-127",
+      "g-122",
+      "g-140",
+      "g-109",
+      "g-110",
+      "g-111",
+      "g-112",
+      "g-104",
+      "g-103",
+      "g-107",
+      "g-80",
+      "g-81",
+      "g-113",
+      "g-116",
+      "g-118",
+      "g-117",
+      "g-84",
+      "g-139",
+      "g-96",
+      "g-90",
+      "g-88",
+      "g-89",
+      "g-149",
+      "local-elisa-brufani",
+      "local-chantal-mersi",
+      "local-samuele-ricciardi"
+    ],
+    "pool": []
+  }
+}

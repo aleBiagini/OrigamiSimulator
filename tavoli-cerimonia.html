@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tavoli Cerimonia - Alessandro e Simona</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: Georgia, 'Times New Roman', serif;
+            background: linear-gradient(135deg, #f5f0e8 0%, #e8e0d5 100%);
+            min-height: 100vh;
+            color: #3d3429;
+        }
+
+        header {
+            background: white;
+            padding: 20px 24px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header h1 {
+            color: #8b7355;
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+
+        header p {
+            color: #777;
+            font-size: 14px;
+        }
+
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            margin-top: 16px;
+        }
+
+        .toolbar input[type="search"] {
+            flex: 1;
+            min-width: 180px;
+            padding: 10px 14px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        .toolbar input[type="search"]:focus {
+            outline: none;
+            border-color: #8b7355;
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 13px;
+            cursor: pointer;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+
+        .btn-primary { background: #8b7355; color: white; }
+        .btn-primary:hover { background: #6d5a44; }
+        .btn-secondary { background: #e8e0d5; color: #5a4a3a; }
+        .btn-secondary:hover { background: #d8cfc0; }
+        .btn-danger { background: #c0392b; color: white; }
+        .btn-danger:hover { background: #a93226; }
+
+        .stats-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 16px 24px;
+        }
+
+        .stat {
+            background: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+            box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+            font-size: 13px;
+        }
+
+        .stat strong {
+            color: #8b7355;
+            font-size: 20px;
+            display: block;
+        }
+
+        main {
+            padding: 0 24px 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 900px) {
+            main { grid-template-columns: 1fr; }
+        }
+
+        .table-panel {
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        .table-panel-header {
+            background: linear-gradient(135deg, #8b7355, #6d5a44);
+            color: white;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-panel-header h2 {
+            font-size: 18px;
+            font-weight: normal;
+        }
+
+        .table-count {
+            background: rgba(255,255,255,0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+
+        .imperial-visual {
+            padding: 16px 20px 8px;
+            text-align: center;
+        }
+
+        .capotavola-label {
+            font-size: 11px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .table-surface {
+            height: 12px;
+            background: linear-gradient(180deg, #a08060, #7a6048);
+            border-radius: 4px;
+            margin: 8px 0;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .side-section {
+            padding: 12px 16px;
+        }
+
+        .side-section + .side-section {
+            border-top: 2px dashed #e8e0d5;
+        }
+
+        .side-label {
+            font-size: 12px;
+            color: #8b7355;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .side-count {
+            color: #999;
+            font-size: 11px;
+            text-transform: none;
+            letter-spacing: 0;
+        }
+
+        .seat-list {
+            min-height: 60px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .seat-list.drag-over {
+            background: rgba(139,115,85,0.08);
+            border-radius: 8px;
+            outline: 2px dashed #8b7355;
+            outline-offset: 4px;
+        }
+
+        .guest-chip {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: #f9f6f2;
+            border: 1px solid #e6dfd3;
+            border-radius: 8px;
+            cursor: grab;
+            font-size: 13px;
+            transition: box-shadow 0.15s, transform 0.15s;
+            user-select: none;
+        }
+
+        .guest-chip:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .guest-chip.dragging {
+            opacity: 0.45;
+            cursor: grabbing;
+        }
+
+        .guest-chip.hidden-by-search {
+            display: none;
+        }
+
+        .guest-chip .num {
+            color: #bbb;
+            font-size: 11px;
+            min-width: 20px;
+            text-align: right;
+        }
+
+        .guest-chip .name {
+            flex: 1;
+            font-weight: 500;
+        }
+
+        .tags {
+            display: flex;
+            gap: 4px;
+            flex-shrink: 0;
+        }
+
+        .tag {
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Segoe UI', sans-serif;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .tag-seggiolone { background: #fff3cd; color: #856404; }
+        .tag-bambino { background: #cce5ff; color: #004085; }
+        .tag-carrozzina { background: #e2d5f1; color: #5a3d8a; }
+        .tag-capotavola { background: #d4edda; color: #155724; }
+        .tag-gruppo { background: #f8d7da; color: #721c24; }
+
+        .pool-section {
+            grid-column: 1 / -1;
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            padding: 16px 20px;
+        }
+
+        .pool-section h3 {
+            color: #8b7355;
+            font-size: 16px;
+            font-weight: normal;
+            margin-bottom: 12px;
+        }
+
+        .pool-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            min-height: 48px;
+        }
+
+        .pool-list .guest-chip {
+            flex: 0 0 auto;
+        }
+
+        .pool-list.drag-over,
+        .pool-list:empty::after {
+            content: 'Trascina qui gli invitati non assegnati';
+            color: #bbb;
+            font-style: italic;
+            font-size: 13px;
+            padding: 12px;
+            width: 100%;
+        }
+
+        .pool-list:not(:empty).drag-over::after {
+            display: none;
+        }
+
+        .empty-side {
+            color: #ccc;
+            font-style: italic;
+            font-size: 12px;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #2c3e50;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 13px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s;
+            z-index: 200;
+            pointer-events: none;
+        }
+
+        .toast.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .sync-panel {
+            grid-column: 1 / -1;
+            background: #fff8e6;
+            border: 1px solid #f0d78c;
+            border-radius: 12px;
+            padding: 16px 20px;
+            font-size: 13px;
+        }
+
+        .sync-panel.ok {
+            background: #eef8f0;
+            border-color: #b8dfc2;
+        }
+
+        .sync-panel h3 {
+            color: #856404;
+            font-size: 15px;
+            font-weight: normal;
+            margin-bottom: 10px;
+        }
+
+        .sync-panel.ok h3 { color: #155724; }
+
+        .sync-panel ul {
+            margin: 8px 0 0 20px;
+            color: #666;
+        }
+
+        .sync-panel .sync-meta {
+            color: #888;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        .loading-screen {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+            color: #888;
+        }
+
+        .guest-chip.not-in-db {
+            border-style: dashed;
+            border-color: #e0a800;
+            background: #fffdf5;
+        }
+
+        .guest-chip.from-db-only {
+            border-color: #b8d4fe;
+            background: #f0f7ff;
+        }
+
+        @media print {
+            header, .toolbar, .stats-bar, .pool-section, .toast, .sync-panel { display: none !important; }
+            body { background: white; }
+            main {
+                grid-template-columns: 1fr 1fr;
+                padding: 0;
+                gap: 16px;
+            }
+            .table-panel { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; }
+            .guest-chip { cursor: default; break-inside: avoid; }
+            .guest-chip .num::after { content: '.'; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Tavoli Imperiali - Cerimonia</h1>
+        <p>Alessandro e Simona &mdash; Trascina gli invitati per riorganizzare i posti</p>
+        <div class="toolbar">
+            <input type="search" id="searchInput" placeholder="Cerca invitato...">
+            <button class="btn btn-primary" onclick="saveLayout()">Salva</button>
+            <button class="btn btn-secondary" onclick="window.print()">Stampa</button>
+            <button class="btn btn-secondary" onclick="resetLayout()">Ripristina disposizione iniziale</button>
+            <button class="btn btn-secondary" onclick="reloadFromDb()">Aggiorna dal database</button>
+        </div>
+    </header>
+
+    <div class="stats-bar">
+        <div class="stat"><strong id="statTotal">0</strong>Totale invitati</div>
+        <div class="stat"><strong id="statT1">0</strong>Tavolo 1</div>
+        <div class="stat"><strong id="statT2">0</strong>Tavolo 2</div>
+        <div class="stat"><strong id="statPool">0</strong>Non assegnati</div>
+        <div class="stat"><strong id="statSeggiolone">0</strong>Seggioloni</div>
+    </div>
+
+    <main id="mainArea"></main>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        const STORAGE_KEY = 'tavoli-cerimonia-layout-v2';
+
+        let GUESTS = [];
+        let guestMap = {};
+        let DEFAULT_LAYOUT = { t1a: [], t1b: [], t2a: [], t2b: [], pool: [] };
+        let syncInfo = null;
+        let dbOnlyIds = new Set();
+        let layout = { t1a: [], t1b: [], t2a: [], t2b: [], pool: [] };
+        let draggedId = null;
+        let dragSourceZone = null;
+
+        async function init() {
+            document.getElementById('mainArea').innerHTML = '<div class="loading-screen">Caricamento invitati dal database...</div>';
+            try {
+                const res = await fetch('/api/tavoli-invitati');
+                if (!res.ok) throw new Error('API error');
+                const data = await res.json();
+                GUESTS = data.persons;
+                guestMap = Object.fromEntries(GUESTS.map(g => [g.id, g]));
+                DEFAULT_LAYOUT = data.defaultLayout;
+                syncInfo = data.sync;
+                dbOnlyIds = new Set((data.sync.dbOnly || []).map(p => p.personId));
+                layout = loadLayout();
+                render();
+            } catch (e) {
+                document.getElementById('mainArea').innerHTML =
+                    '<div class="loading-screen">Impossibile caricare dal database.<br><br>Apri la pagina dal sito deployato oppure avvia <code>vercel dev</code>.</div>';
+            }
+        }
+
+        function reloadFromDb() {
+            if (!confirm('Aggiornare i nomi dal database? La disposizione attuale verra mantenuta dove possibile.')) return;
+            init().then(() => showToast('Dati aggiornati dal database'));
+        }
+
+        function loadLayout() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    const allIds = new Set(GUESTS.map(g => g.id));
+                    const zones = ['t1a', 't1b', 't2a', 't2b', 'pool'];
+                    const seen = new Set();
+                    const result = { t1a: [], t1b: [], t2a: [], t2b: [], pool: [] };
+                    zones.forEach(z => {
+                        (parsed[z] || []).forEach(id => {
+                            if (allIds.has(id) && !seen.has(id)) {
+                                result[z].push(id);
+                                seen.add(id);
+                            }
+                        });
+                    });
+                    GUESTS.forEach(g => {
+                        if (!seen.has(g.id)) result.pool.push(g.id);
+                    });
+                    return result;
+                }
+            } catch (e) { /* ignore */ }
+            return JSON.parse(JSON.stringify(DEFAULT_LAYOUT));
+        }
+
+        function saveLayout() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(layout));
+            showToast('Disposizione salvata');
+        }
+
+        function resetLayout() {
+            if (!confirm('Ripristinare la disposizione iniziale dalle foto?')) return;
+            layout = JSON.parse(JSON.stringify(DEFAULT_LAYOUT));
+            localStorage.removeItem(STORAGE_KEY);
+            render();
+            showToast('Disposizione ripristinata');
+        }
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('visible');
+            setTimeout(() => t.classList.remove('visible'), 2000);
+        }
+
+        const TAG_LABELS = {
+            seggiolone: 'Seggiolone',
+            bambino: 'Bambino',
+            carrozzina: 'Carrozzina',
+            capotavola: 'Capotavola',
+            gruppo: 'Gruppo'
+        };
+
+        function renderGuestChip(id, index) {
+            const g = guestMap[id];
+            if (!g) return '';
+            const tags = (g.tags || []).map(t =>
+                `<span class="tag tag-${t}">${TAG_LABELS[t] || t}</span>`
+            ).join('');
+            const extraClass = !g.inDatabase ? ' not-in-db' : (dbOnlyIds.has(g.id) ? ' from-db-only' : '');
+            return `<div class="guest-chip${extraClass}" draggable="true" data-id="${g.id}" data-name="${g.name.toLowerCase()}">
+                <span class="num">${index != null ? index + 1 : ''}</span>
+                <span class="name">${escapeHtml(g.name)}</span>
+                <span class="tags">${tags}</span>
+            </div>`;
+        }
+
+        function escapeHtml(text) {
+            const d = document.createElement('div');
+            d.textContent = text;
+            return d.innerHTML;
+        }
+
+        function countInTable(tKey) {
+            return layout[tKey + 'a'].length + layout[tKey + 'b'].length;
+        }
+
+        function updateStats() {
+            document.getElementById('statTotal').textContent = GUESTS.length;
+            document.getElementById('statT1').textContent = countInTable('t1');
+            document.getElementById('statT2').textContent = countInTable('t2');
+            document.getElementById('statPool').textContent = layout.pool.length;
+            const seggioloni = GUESTS.filter(g => g.tags && g.tags.includes('seggiolone')).length;
+            document.getElementById('statSeggiolone').textContent = seggioloni;
+        }
+
+        function renderSyncPanel() {
+            if (!syncInfo) return '';
+            const photoOnly = syncInfo.photoOnly || [];
+            const dbOnly = syncInfo.dbOnly || [];
+            const ok = photoOnly.length === 0 && dbOnly.length === 0;
+            let html = `<div class="sync-panel${ok ? ' ok' : ''}"><h3>${ok ? 'Nomi allineati con il database' : 'Differenze rispetto al database'}</h3>`;
+            if (photoOnly.length) {
+                html += `<p><strong>Solo nelle foto</strong> (non presenti nel DB, mostrati con bordo tratteggiato):</p><ul>${photoOnly.map(p => `<li>${escapeHtml(p.name)}</li>`).join('')}</ul>`;
+            }
+            if (dbOnly.length) {
+                html += `<p><strong>Solo nel database</strong> (extra, disponibili nel pool):</p><ul>${dbOnly.map(p => `<li>${escapeHtml(p.name)}</li>`).join('')}</ul>`;
+            }
+            if (syncInfo.lastSync) {
+                html += `<p class="sync-meta">Ultimo allineamento: ${new Date(syncInfo.lastSync).toLocaleString('it-IT')} &mdash; ${syncInfo.matchedFromPhotos} nomi dalle foto collegati al DB</p>`;
+            }
+            html += '</div>';
+            return html;
+        }
+
+        function renderSide(zone, ids) {
+            if (ids.length === 0) {
+                return '<div class="empty-side">Nessun invitato</div>';
+            }
+            return ids.map((id, i) => renderGuestChip(id, i)).join('');
+        }
+
+        function renderTable(num, tKey) {
+            const total = countInTable(tKey);
+            return `
+                <div class="table-panel" data-table="${tKey}">
+                    <div class="table-panel-header">
+                        <h2>Tavolo ${num}</h2>
+                        <span class="table-count">${total} invitati</span>
+                    </div>
+                    <div class="imperial-visual">
+                        <div class="capotavola-label">Capotavola</div>
+                    </div>
+                    <div class="side-section">
+                        <div class="side-label">
+                            Lato A
+                            <span class="side-count">${layout[tKey + 'a'].length} posti</span>
+                        </div>
+                        <div class="seat-list" data-zone="${tKey}a">${renderSide(tKey + 'a', layout[tKey + 'a'])}</div>
+                    </div>
+                    <div class="imperial-visual">
+                        <div class="table-surface"></div>
+                    </div>
+                    <div class="side-section">
+                        <div class="side-label">
+                            Lato B
+                            <span class="side-count">${layout[tKey + 'b'].length} posti</span>
+                        </div>
+                        <div class="seat-list" data-zone="${tKey}b">${renderSide(tKey + 'b', layout[tKey + 'b'])}</div>
+                    </div>
+                    <div class="imperial-visual">
+                        <div class="capotavola-label">Capotavola</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function render() {
+            const main = document.getElementById('mainArea');
+            main.innerHTML = `
+                ${renderSyncPanel()}
+                ${renderTable(1, 't1')}
+                ${renderTable(2, 't2')}
+                <div class="pool-section">
+                    <h3>Invitati non assegnati (${layout.pool.length})</h3>
+                    <div class="pool-list seat-list" data-zone="pool">
+                        ${layout.pool.map(id => renderGuestChip(id)).join('')}
+                    </div>
+                </div>
+            `;
+            updateStats();
+            bindDragEvents();
+            applySearch();
+        }
+
+        function bindDragEvents() {
+            document.querySelectorAll('.guest-chip').forEach(chip => {
+                chip.addEventListener('dragstart', onDragStart);
+                chip.addEventListener('dragend', onDragEnd);
+            });
+            document.querySelectorAll('.seat-list').forEach(list => {
+                list.addEventListener('dragover', onDragOver);
+                list.addEventListener('dragleave', onDragLeave);
+                list.addEventListener('drop', onDrop);
+            });
+        }
+
+        function onDragStart(e) {
+            draggedId = e.currentTarget.dataset.id;
+            dragSourceZone = e.currentTarget.closest('.seat-list').dataset.zone;
+            e.currentTarget.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/plain', draggedId);
+        }
+
+        function onDragEnd(e) {
+            e.currentTarget.classList.remove('dragging');
+            document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+        }
+
+        function onDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            const list = e.currentTarget;
+            list.classList.add('drag-over');
+
+            const afterElement = getDragAfterElement(list, e.clientY);
+            const dragging = document.querySelector('.dragging');
+            if (!dragging) return;
+
+            if (afterElement == null) {
+                list.appendChild(dragging);
+            } else {
+                list.insertBefore(dragging, afterElement);
+            }
+        }
+
+        function onDragLeave(e) {
+            if (!e.currentTarget.contains(e.relatedTarget)) {
+                e.currentTarget.classList.remove('drag-over');
+            }
+        }
+
+        function getDragAfterElement(container, y) {
+            const draggableElements = [...container.querySelectorAll('.guest-chip:not(.dragging)')];
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offset = y - box.top - box.height / 2;
+                if (offset < 0 && offset > closest.offset) {
+                    return { offset, element: child };
+                }
+                return closest;
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+        }
+
+        function onDrop(e) {
+            e.preventDefault();
+            const targetZone = e.currentTarget.dataset.zone;
+            e.currentTarget.classList.remove('drag-over');
+
+            const chips = [...e.currentTarget.querySelectorAll('.guest-chip')];
+            const newOrder = chips.map(c => c.dataset.id);
+
+            if (dragSourceZone && dragSourceZone !== targetZone) {
+                layout[dragSourceZone] = layout[dragSourceZone].filter(id => id !== draggedId);
+            }
+
+            layout[targetZone] = newOrder;
+            render();
+            saveLayout();
+        }
+
+        function applySearch() {
+            const term = document.getElementById('searchInput').value.toLowerCase().trim();
+            document.querySelectorAll('.guest-chip').forEach(chip => {
+                const name = chip.dataset.name;
+                chip.classList.toggle('hidden-by-search', term && !name.includes(term));
+            });
+        }
+
+        document.getElementById('searchInput').addEventListener('input', applySearch);
+
+        init();
+    </script>
+</body>
+</html>

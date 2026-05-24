@@ -9,6 +9,7 @@
     "prisma:push": "prisma db push",
     "prisma:studio": "prisma studio",
     "prisma:seed": "node prisma/seed.js",
+    "tavoli:sync": "node scripts/compare-tavoli-guests.js",
     "postinstall": "prisma generate"
   },
   "prisma": {

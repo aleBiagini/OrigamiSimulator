@@ -5,6 +5,10 @@
     {
       "source": "/lista-invitati",
       "destination": "/lista-invitati.html"
+    },
+    {
+      "source": "/tavoli-cerimonia",
+      "destination": "/tavoli-cerimonia.html"
     }
   ],
   "headers": [
