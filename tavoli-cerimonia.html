@@ -166,17 +166,6 @@
             margin: 0 8px;
         }
 
-        .capotavola-label {
-            font-size: 9px;
-            color: #aaa;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            writing-mode: vertical-rl;
-            transform: rotate(180deg);
-            padding: 6px 0;
-            flex-shrink: 0;
-        }
-
         .table-surface {
             flex: 1;
             width: 100%;
@@ -282,7 +271,6 @@
         .tag-seggiolone { background: #fff3cd; color: #856404; }
         .tag-bambino { background: #cce5ff; color: #004085; }
         .tag-carrozzina { background: #e2d5f1; color: #5a3d8a; }
-        .tag-capotavola { background: #d4edda; color: #155724; }
         .tag-gruppo { background: #f8d7da; color: #721c24; }
 
         .pool-section {
@@ -444,7 +432,7 @@
     <div class="toast" id="toast"></div>
 
     <script>
-        const STORAGE_KEY = 'tavoli-cerimonia-layout-v2';
+        const STORAGE_KEY = 'tavoli-cerimonia-layout-v3';
 
         let GUESTS = [];
         let guestMap = {};
@@ -481,7 +469,20 @@
 
         function loadLayout() {
             try {
-                const saved = localStorage.getItem(STORAGE_KEY);
+                let saved = localStorage.getItem(STORAGE_KEY);
+                if (!saved) {
+                    const v2 = localStorage.getItem('tavoli-cerimonia-layout-v2');
+                    if (v2) {
+                        const old = JSON.parse(v2);
+                        saved = JSON.stringify({
+                            t1a: old.t1a || [],
+                            t1b: old.t2a || [],
+                            t2a: old.t1b || [],
+                            t2b: old.t2b || [],
+                            pool: old.pool || []
+                        });
+                    }
+                }
                 if (saved) {
                     const parsed = JSON.parse(saved);
                     const allIds = new Set(GUESTS.map(g => g.id));
@@ -529,7 +530,6 @@
             seggiolone: 'Seggiolone',
             bambino: 'Bambino',
             carrozzina: 'Carrozzina',
-            capotavola: 'Capotavola',
             gruppo: 'Gruppo'
         };
 
@@ -605,9 +605,7 @@
                             <div class="seat-list" data-zone="${tKey}a">${renderSide(tKey + 'a', layout[tKey + 'a'])}</div>
                         </div>
                         <div class="table-spine">
-                            <div class="capotavola-label">Capotavola</div>
                             <div class="table-surface"></div>
-                            <div class="capotavola-label">Capotavola</div>
                         </div>
                         <div class="seat-column right">
                             <div class="seat-list" data-zone="${tKey}b">${renderSide(tKey + 'b', layout[tKey + 'b'])}</div>

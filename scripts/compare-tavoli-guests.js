@@ -124,8 +124,8 @@ async function main() {
     const ids = mapping.map(m => m.personId).concat(photoOnly.map(p => p.personId));
     const defaultLayout = {
         t1a: ids.slice(0, 33),
-        t2a: ids.slice(33, 66),
-        t1b: ids.slice(66, 100),
+        t1b: ids.slice(33, 66),
+        t2a: ids.slice(66, 100),
         t2b: ids.slice(100, 134),
         pool: []
     };
