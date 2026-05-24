@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tavoli Cerimonia - Alessandro e Simona</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -269,7 +272,6 @@
         }
 
         .tag-seggiolone { background: #fff3cd; color: #856404; }
-        .tag-carrozzina { background: #e2d5f1; color: #5a3d8a; }
         .tag-gruppo { background: #f8d7da; color: #721c24; }
 
         .pool-section {
@@ -391,17 +393,116 @@
             background: #f0f7ff;
         }
 
+        #printArea {
+            display: none;
+        }
+
         @media print {
-            header, .toolbar, .stats-bar, .pool-section, .toast, .sync-panel { display: none !important; }
-            body { background: white; }
-            .tables-stage {
-                flex-direction: row;
-                gap: 20px;
+            body > *:not(#printArea) {
+                display: none !important;
             }
-            .imperial-table { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; }
-            .guest-chip { cursor: default; break-inside: avoid; font-size: 10px; }
-            .guest-chip .num::after { content: '.'; }
-            .table-surface { background: #e8e0d5 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+            body {
+                background: white !important;
+                margin: 0;
+                padding: 0;
+            }
+
+            #printArea {
+                display: block !important;
+                font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                color: #111;
+                background: white;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            #printArea .print-couple {
+                font-family: 'Alex Brush', cursive;
+                font-size: 52pt;
+                font-weight: 400;
+                text-align: center;
+                margin: 0 0 10px;
+                color: #111;
+            }
+
+            #printArea .print-subtitle {
+                text-align: center;
+                font-size: 9pt;
+                letter-spacing: 0.35em;
+                text-transform: uppercase;
+                color: #333;
+                margin: 0 0 36px;
+            }
+
+            #printArea .print-tables {
+                display: flex;
+                justify-content: center;
+                gap: 48px;
+                align-items: stretch;
+                max-width: 100%;
+                margin: 0 auto;
+            }
+
+            #printArea .print-table {
+                display: grid;
+                grid-template-columns: 1fr 64px 1fr;
+                gap: 16px;
+                flex: 1;
+                max-width: 48%;
+            }
+
+            #printArea .print-col {
+                display: flex;
+                flex-direction: column;
+                gap: 0;
+            }
+
+            #printArea .print-col.left {
+                text-align: right;
+            }
+
+            #printArea .print-col.right {
+                text-align: left;
+            }
+
+            #printArea .print-name {
+                font-size: 8.5pt;
+                line-height: 1.45;
+                color: #111;
+                break-inside: avoid;
+            }
+
+            #printArea .print-spine {
+                background: #d9d9d9;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 100%;
+            }
+
+            #printArea .print-spine span {
+                font-size: 7pt;
+                letter-spacing: 0.12em;
+                text-transform: uppercase;
+                color: #444;
+                text-align: center;
+                line-height: 1.3;
+            }
+
+            #printArea .print-footer {
+                text-align: center;
+                font-size: 8pt;
+                letter-spacing: 0.35em;
+                text-transform: uppercase;
+                color: #333;
+                margin-top: 40px;
+            }
+
+            @page {
+                size: A4 landscape;
+                margin: 1.2cm 1.5cm;
+            }
         }
     </style>
 </head>
@@ -412,7 +513,7 @@
         <div class="toolbar">
             <input type="search" id="searchInput" placeholder="Cerca invitato...">
             <button class="btn btn-primary" onclick="saveLayout()">Salva</button>
-            <button class="btn btn-secondary" onclick="window.print()">Stampa</button>
+            <button class="btn btn-secondary" onclick="printSeatingChart()">Stampa</button>
             <button class="btn btn-secondary" onclick="resetLayout()">Ripristina disposizione iniziale</button>
             <button class="btn btn-secondary" onclick="reloadFromDb()">Aggiorna dal database</button>
         </div>
@@ -429,6 +530,7 @@
     <main id="mainArea"></main>
 
     <div class="toast" id="toast"></div>
+    <div id="printArea"></div>
 
     <script>
         const STORAGE_KEY = 'tavoli-cerimonia-layout-v3';
@@ -527,7 +629,6 @@
 
         const TAG_LABELS = {
             seggiolone: 'Seggiolone',
-            carrozzina: 'Carrozzina',
             gruppo: 'Gruppo'
         };
 
@@ -719,6 +820,36 @@
         }
 
         document.getElementById('searchInput').addEventListener('input', applySearch);
+
+        function printNameList(ids) {
+            return ids.map(id => {
+                const g = guestMap[id];
+                if (!g) return '';
+                return `<div class="print-name">${escapeHtml(g.name)}</div>`;
+            }).join('');
+        }
+
+        function printSeatingChart() {
+            const area = document.getElementById('printArea');
+            area.innerHTML = `
+                <h1 class="print-couple">Alessandro &amp; Simona</h1>
+                <p class="print-subtitle">1 Giugno 2026</p>
+                <div class="print-tables">
+                    <div class="print-table">
+                        <div class="print-col left">${printNameList(layout.t1a)}</div>
+                        <div class="print-spine"><span>Tavolo 1</span></div>
+                        <div class="print-col right">${printNameList(layout.t1b)}</div>
+                    </div>
+                    <div class="print-table">
+                        <div class="print-col left">${printNameList(layout.t2a)}</div>
+                        <div class="print-spine"><span>Tavolo 2</span></div>
+                        <div class="print-col right">${printNameList(layout.t2b)}</div>
+                    </div>
+                </div>
+                <p class="print-footer">Trova il tuo posto</p>
+            `;
+            setTimeout(() => window.print(), 100);
+        }
 
         init();
     </script>
