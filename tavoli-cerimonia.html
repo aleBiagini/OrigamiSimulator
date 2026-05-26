@@ -432,6 +432,11 @@
                 font-family: 'Alex Brush', serif;
             }
 
+            @page sposi-landscape {
+                size: A4 landscape;
+                margin: 10mm 12mm;
+            }
+
             @page table-roll {
                 size: 210mm 594mm;
                 margin: 10mm 12mm;
@@ -443,18 +448,28 @@
             }
 
             #printArea .print-page {
-                page: table-roll;
                 page-break-after: always;
                 break-after: page;
                 page-break-inside: avoid;
                 break-inside: avoid;
-                width: 210mm;
-                height: 594mm;
-                max-height: 594mm;
                 overflow: hidden;
                 display: flex;
                 flex-direction: column;
                 box-sizing: border-box;
+            }
+
+            #printArea .print-page.print-sposi-page {
+                page: sposi-landscape;
+                width: 297mm;
+                height: 210mm;
+                max-height: 210mm;
+            }
+
+            #printArea .print-page:not(.print-sposi-page) {
+                page: table-roll;
+                width: 210mm;
+                height: 594mm;
+                max-height: 594mm;
             }
 
             #printArea .print-page:last-child {
@@ -518,6 +533,71 @@
                 color: #333;
                 flex-shrink: 0;
                 padding: 6mm 0 2mm;
+            }
+
+            #printArea:not(.maitre-print) .print-sposi-wrap {
+                flex: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 6mm 0;
+                min-height: 0;
+            }
+
+            #printArea:not(.maitre-print) .print-sposi-table {
+                display: flex;
+                flex-direction: column;
+                width: 92%;
+                max-width: 260mm;
+                height: 100%;
+                max-height: 170mm;
+                justify-content: center;
+            }
+
+            #printArea:not(.maitre-print) .print-sposi-row {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-evenly;
+                align-items: center;
+                flex: 1;
+                gap: 4mm;
+                flex-wrap: wrap;
+            }
+
+            #printArea:not(.maitre-print) .print-sposi-row.top {
+                align-items: flex-end;
+                padding-bottom: 5mm;
+            }
+
+            #printArea:not(.maitre-print) .print-sposi-row.bottom {
+                align-items: flex-start;
+                padding-top: 5mm;
+            }
+
+            #printArea:not(.maitre-print) .print-sposi-spine {
+                background: #d9d9d9;
+                height: 22mm;
+                flex-shrink: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+            }
+
+            #printArea:not(.maitre-print) .print-sposi-spine-label {
+                font-family: 'Alex Brush', serif;
+                font-size: 24pt;
+                color: #111;
+                letter-spacing: 0.04em;
+            }
+
+            #printArea:not(.maitre-print) .print-sposi-name {
+                font-family: 'Alex Brush', serif;
+                font-size: 22pt;
+                line-height: 1.35;
+                color: #111;
+                text-align: center;
+                break-inside: avoid;
             }
 
             #printArea.maitre-print {
@@ -699,6 +779,7 @@
         let syncInfo = null;
         let dbOnlyIds = new Set();
         let layout = { t1a: [], t1b: [], t2a: [], t2b: [], pool: [] };
+        let sposiTable = { coupleLabel: 'Alessandro e Simona', top: [], bottom: [] };
         let draggedId = null;
         let dragSourceZone = null;
 
@@ -711,6 +792,7 @@
                 GUESTS = data.persons;
                 guestMap = Object.fromEntries(GUESTS.map(g => [g.id, g]));
                 DEFAULT_LAYOUT = data.defaultLayout;
+                sposiTable = data.sposiTable || sposiTable;
                 syncInfo = data.sync;
                 dbOnlyIds = new Set((data.sync.dbOnly || []).map(p => p.personId));
                 layout = loadLayout();
@@ -995,6 +1077,30 @@
             }).join('');
         }
 
+        function renderPrintSposiRow(names, rowClass) {
+            const items = (names || []).map(name =>
+                `<div class="print-sposi-name">${escapeHtml(formatPrintName(name))}</div>`
+            ).join('');
+            return `<div class="print-sposi-row ${rowClass}">${items}</div>`;
+        }
+
+        function renderPrintSposiPage() {
+            const label = sposiTable.coupleLabel || 'Alessandro e Simona';
+            return `
+                <div class="print-page print-sposi-page">
+                    <div class="print-sposi-wrap">
+                        <div class="print-sposi-table">
+                            ${renderPrintSposiRow(sposiTable.top, 'top')}
+                            <div class="print-sposi-spine">
+                                <span class="print-sposi-spine-label">${escapeHtml(label)}</span>
+                            </div>
+                            ${renderPrintSposiRow(sposiTable.bottom, 'bottom')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
         function renderPrintPage(tableNum, tKey) {
             return `
                 <div class="print-page">
@@ -1073,6 +1179,8 @@
         async function ensurePrintFont() {
             try {
                 await document.fonts.load('400 27pt "Alex Brush"');
+                await document.fonts.load('400 22pt "Alex Brush"');
+                await document.fonts.load('400 24pt "Alex Brush"');
                 await document.fonts.load('400 20pt "Alex Brush"');
                 await document.fonts.ready;
             } catch (e) { /* ignore */ }
@@ -1083,7 +1191,8 @@
             printArea.classList.remove('maitre-print');
             ensurePrintFont().then(() => {
                 printArea.innerHTML =
-                    renderPrintPage(1, 't1') + renderPrintPage(2, 't2');
+                    renderPrintSposiPage()
+                    + renderPrintPage(1, 't1') + renderPrintPage(2, 't2');
                 setTimeout(() => window.print(), 400);
             });
         }

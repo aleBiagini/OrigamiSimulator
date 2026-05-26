@@ -82,6 +82,12 @@ export default async function handler(req, res) {
             defaultLayout: { t1a: [], t1b: [], t2a: [], t2b: [], pool: [] }
         });
 
+        const sposiTable = loadJson('tavoli-sposi.json', {
+            coupleLabel: 'Alessandro e Simona',
+            top: [],
+            bottom: []
+        });
+
         const dbGuests = await prisma.guest.findMany({
             orderBy: { name: 'asc' },
             include: { registration: { include: { familyMembers: true } } }
@@ -148,6 +154,7 @@ export default async function handler(req, res) {
         return res.status(200).json({
             persons,
             defaultLayout,
+            sposiTable,
             sync: {
                 matchedFromPhotos: (mappingData.mapping || []).length,
                 photoOnly: photoOnlyWithIds,
