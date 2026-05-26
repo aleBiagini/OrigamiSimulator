@@ -23,6 +23,7 @@ function personKey(type, guestId, familyId) {
 function flattenDbGuests(dbGuests) {
     const persons = [];
     for (const g of dbGuests) {
+        const reg = g.registration;
         persons.push({
             id: personKey('guest', g.id, null),
             name: g.name,
@@ -30,9 +31,10 @@ function flattenDbGuests(dbGuests) {
             guestId: g.id,
             familyId: null,
             host: null,
-            inDatabase: true
+            inDatabase: true,
+            dietaryPreference: reg?.dietaryPreference || 'nessuna',
+            dietaryNotes: reg?.dietaryNotes || null
         });
-        const reg = g.registration;
         if (reg?.plusOneName) {
             persons.push({
                 id: personKey('plusOne', g.id, null),
@@ -41,7 +43,9 @@ function flattenDbGuests(dbGuests) {
                 guestId: g.id,
                 familyId: null,
                 host: g.name,
-                inDatabase: true
+                inDatabase: true,
+                dietaryPreference: reg.plusOneDietaryPreference || 'nessuna',
+                dietaryNotes: reg.plusOneDietaryNotes || null
             });
         }
         for (const fm of reg?.familyMembers || []) {
@@ -52,7 +56,9 @@ function flattenDbGuests(dbGuests) {
                 guestId: g.id,
                 familyId: fm.id,
                 host: g.name,
-                inDatabase: true
+                inDatabase: true,
+                dietaryPreference: fm.dietaryPreference || 'nessuna',
+                dietaryNotes: fm.dietaryNotes || null
             });
         }
     }
