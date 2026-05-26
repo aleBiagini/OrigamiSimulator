@@ -181,8 +181,8 @@
             flex: 1;
             width: 100%;
             min-height: 120px;
-            background: #d4c4b0;
-            border: 1px solid #b8a890;
+            background: #9CAF88;
+            border: 1px solid #7A9468;
             border-radius: 4px;
         }
 
@@ -520,7 +520,7 @@
             }
 
             #printArea:not(.maitre-print) .print-spine {
-                background: #d9d9d9;
+                background: #9CAF88;
                 min-height: 100%;
                 height: 100%;
             }
@@ -549,33 +549,22 @@
                 flex-direction: column;
                 width: 92%;
                 max-width: 260mm;
-                height: 100%;
-                max-height: 170mm;
                 justify-content: center;
+                gap: 0;
             }
 
             #printArea:not(.maitre-print) .print-sposi-row {
                 display: flex;
                 flex-direction: row;
                 justify-content: space-evenly;
-                align-items: center;
-                flex: 1;
-                gap: 4mm;
-                flex-wrap: wrap;
-            }
-
-            #printArea:not(.maitre-print) .print-sposi-row.top {
                 align-items: flex-end;
-                padding-bottom: 5mm;
-            }
-
-            #printArea:not(.maitre-print) .print-sposi-row.bottom {
-                align-items: flex-start;
-                padding-top: 5mm;
+                flex-wrap: wrap;
+                gap: 5mm;
+                padding-bottom: 6mm;
             }
 
             #printArea:not(.maitre-print) .print-sposi-spine {
-                background: #d9d9d9;
+                background: #9CAF88;
                 height: 22mm;
                 flex-shrink: 0;
                 display: flex;
@@ -586,15 +575,15 @@
 
             #printArea:not(.maitre-print) .print-sposi-spine-label {
                 font-family: 'Alex Brush', serif;
-                font-size: 24pt;
+                font-size: 26pt;
                 color: #111;
                 letter-spacing: 0.04em;
             }
 
             #printArea:not(.maitre-print) .print-sposi-name {
                 font-family: 'Alex Brush', serif;
-                font-size: 22pt;
-                line-height: 1.35;
+                font-size: 34pt;
+                line-height: 1.3;
                 color: #111;
                 text-align: center;
                 break-inside: avoid;
@@ -727,7 +716,7 @@
             }
 
             #printArea.maitre-print .maitre-spine {
-                background: #d9d9d9;
+                background: #9CAF88;
                 min-height: 100%;
                 height: 100%;
             }
@@ -1077,24 +1066,27 @@
             }).join('');
         }
 
-        function renderPrintSposiRow(names, rowClass) {
-            const items = (names || []).map(name =>
-                `<div class="print-sposi-name">${escapeHtml(formatPrintName(name))}</div>`
-            ).join('');
-            return `<div class="print-sposi-row ${rowClass}">${items}</div>`;
+        function getSposiGuestNames() {
+            return [...(sposiTable.top || []), ...(sposiTable.bottom || [])];
         }
 
         function renderPrintSposiPage() {
             const label = sposiTable.coupleLabel || 'Alessandro e Simona';
+            const names = getSposiGuestNames();
+            const namesHtml = names.map(name =>
+                `<div class="print-sposi-name">${escapeHtml(formatPrintName(name))}</div>`
+            ).join('');
+            const namesRow = names.length
+                ? `<div class="print-sposi-row">${namesHtml}</div>`
+                : '';
             return `
                 <div class="print-page print-sposi-page">
                     <div class="print-sposi-wrap">
                         <div class="print-sposi-table">
-                            ${renderPrintSposiRow(sposiTable.top, 'top')}
+                            ${namesRow}
                             <div class="print-sposi-spine">
                                 <span class="print-sposi-spine-label">${escapeHtml(label)}</span>
                             </div>
-                            ${renderPrintSposiRow(sposiTable.bottom, 'bottom')}
                         </div>
                     </div>
                 </div>
@@ -1179,7 +1171,7 @@
         async function ensurePrintFont() {
             try {
                 await document.fonts.load('400 27pt "Alex Brush"');
-                await document.fonts.load('400 22pt "Alex Brush"');
+                await document.fonts.load('400 34pt "Alex Brush"');
                 await document.fonts.load('400 24pt "Alex Brush"');
                 await document.fonts.load('400 20pt "Alex Brush"');
                 await document.fonts.ready;
