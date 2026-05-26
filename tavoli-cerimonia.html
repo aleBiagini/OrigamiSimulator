@@ -566,7 +566,7 @@
             #printArea.maitre-print .maitre-table-wrap {
                 flex: 1;
                 display: flex;
-                align-items: stretch;
+                align-items: flex-start;
                 justify-content: center;
                 min-height: 0;
             }
@@ -576,14 +576,14 @@
                 grid-template-columns: 1fr 18mm 1fr;
                 gap: 5mm;
                 width: 100%;
-                height: 100%;
                 align-items: stretch;
             }
 
             #printArea.maitre-print .maitre-col {
                 display: flex;
                 flex-direction: column;
-                justify-content: center;
+                justify-content: flex-start;
+                align-items: stretch;
                 gap: 0;
             }
 
@@ -596,25 +596,45 @@
             }
 
             #printArea.maitre-print .maitre-guest {
+                display: flex;
+                flex-direction: row;
+                align-items: baseline;
+                gap: 3mm;
                 break-inside: avoid;
                 margin-bottom: 2mm;
+                line-height: 1.25;
+            }
+
+            #printArea.maitre-print .maitre-col.left .maitre-guest {
+                justify-content: flex-end;
+            }
+
+            #printArea.maitre-print .maitre-col.right .maitre-guest {
+                justify-content: flex-start;
             }
 
             #printArea.maitre-print .maitre-name {
-                display: block;
                 font-size: 9.5pt;
                 font-weight: 600;
-                line-height: 1.25;
                 color: #111;
+                flex-shrink: 0;
+            }
+
+            #printArea.maitre-print .maitre-notes {
+                display: inline-flex;
+                flex-wrap: wrap;
+                align-items: baseline;
+                gap: 2mm;
+                flex-shrink: 1;
+                min-width: 0;
             }
 
             #printArea.maitre-print .maitre-note {
-                display: block;
                 font-size: 8pt;
                 font-weight: 600;
                 line-height: 1.2;
-                margin-top: 1px;
                 letter-spacing: 0.02em;
+                white-space: nowrap;
             }
 
             #printArea.maitre-print .maitre-note-chair {
@@ -1006,18 +1026,20 @@
             return parts.join('');
         }
 
-        function renderMaitreGuest(id) {
+        function renderMaitreGuest(id, side) {
             const g = guestMap[id];
             if (!g) return '';
             const notes = getMaitreGuestNotesHtml(g);
-            return `<div class="maitre-guest">
-                <span class="maitre-name">${escapeHtml(g.name)}</span>
-                ${notes}
-            </div>`;
+            const notesHtml = notes ? `<span class="maitre-notes">${notes}</span>` : '';
+            const nameHtml = `<span class="maitre-name">${escapeHtml(g.name)}</span>`;
+            if (side === 'left') {
+                return `<div class="maitre-guest">${notesHtml}${nameHtml}</div>`;
+            }
+            return `<div class="maitre-guest">${nameHtml}${notesHtml}</div>`;
         }
 
-        function renderMaitreCol(ids) {
-            return ids.map(id => renderMaitreGuest(id)).join('');
+        function renderMaitreCol(ids, side) {
+            return ids.map(id => renderMaitreGuest(id, side)).join('');
         }
 
         function renderMaitreTablePage(tableNum, tKey, printDate) {
@@ -1032,9 +1054,9 @@
                     </div>
                     <div class="maitre-table-wrap">
                         <div class="maitre-table">
-                            <div class="maitre-col left">${renderMaitreCol(layout[tKey + 'a'])}</div>
+                            <div class="maitre-col left">${renderMaitreCol(layout[tKey + 'a'], 'left')}</div>
                             <div class="maitre-spine"></div>
-                            <div class="maitre-col right">${renderMaitreCol(layout[tKey + 'b'])}</div>
+                            <div class="maitre-col right">${renderMaitreCol(layout[tKey + 'b'], 'right')}</div>
                         </div>
                     </div>
                     ${footer}
