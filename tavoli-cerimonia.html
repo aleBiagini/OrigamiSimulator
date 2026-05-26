@@ -442,15 +442,15 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                padding: 24px 12px;
+                padding-top: 12px;
             }
 
             #printArea:not(.maitre-print) .print-table {
-                display: flex;
-                flex-direction: column;
-                align-items: stretch;
-                width: 88%;
-                max-width: 17cm;
+                display: grid;
+                grid-template-columns: 1fr 72px 1fr;
+                gap: 20px;
+                width: 85%;
+                max-width: 18cm;
             }
 
             #printArea:not(.maitre-print) .print-col {
@@ -459,37 +459,34 @@
                 gap: 0;
             }
 
-            #printArea:not(.maitre-print) .print-col.left,
+            #printArea:not(.maitre-print) .print-col.left {
+                text-align: right;
+            }
+
             #printArea:not(.maitre-print) .print-col.right {
-                text-align: center;
+                text-align: left;
             }
 
             #printArea:not(.maitre-print) .print-name {
                 font-family: 'Alex Brush', cursive;
-                font-size: 28pt;
-                line-height: 1.45;
+                font-size: 15pt;
+                line-height: 1.35;
                 color: #111;
                 break-inside: avoid;
             }
 
-            #printArea:not(.maitre-print) .print-side-label {
-                font-family: Georgia, 'Times New Roman', serif;
-                font-size: 11pt;
-                letter-spacing: 0.18em;
-                text-transform: uppercase;
-                color: #666;
-                margin-bottom: 28px;
-                text-align: center;
+            #printArea:not(.maitre-print) .print-spine {
+                background: #d9d9d9;
+                min-height: 100%;
             }
 
             #printArea:not(.maitre-print) .print-footer {
                 text-align: center;
-                font-family: 'Alex Brush', cursive;
-                font-size: 22pt;
+                font-size: 14pt;
                 letter-spacing: 0.12em;
                 color: #333;
                 margin-top: auto;
-                padding-top: 48px;
+                padding-top: 40px;
             }
 
             #printArea.maitre-print .maitre-page {
@@ -947,23 +944,19 @@
             }).join('');
         }
 
-        function renderPrintSidePage(tableNum, sideLabel, tKey, side, showFooter) {
+        function renderPrintPage(tableNum, tKey) {
             return `
                 <div class="print-page">
                     <div class="print-table-wrap">
                         <div class="print-table">
-                            <p class="print-side-label">Tavolo ${tableNum} &mdash; ${sideLabel}</p>
-                            <div class="print-col ${side}">${printNameList(layout[tKey + side])}</div>
+                            <div class="print-col left">${printNameList(layout[tKey + 'a'])}</div>
+                            <div class="print-spine"></div>
+                            <div class="print-col right">${printNameList(layout[tKey + 'b'])}</div>
                         </div>
                     </div>
-                    ${showFooter ? '<p class="print-footer">Trova il tuo posto</p>' : ''}
+                    <p class="print-footer">Trova il tuo posto</p>
                 </div>
             `;
-        }
-
-        function renderPrintTable(tableNum, tKey) {
-            return renderPrintSidePage(tableNum, 'Lato sinistro', tKey, 'a', false)
-                + renderPrintSidePage(tableNum, 'Lato destro', tKey, 'b', true);
         }
 
         function getMaitreAnnotations(g) {
@@ -1076,7 +1069,7 @@
             printArea.classList.remove('maitre-print');
             document.fonts.ready.then(() => {
                 printArea.innerHTML =
-                    renderPrintTable(1, 't1') + renderPrintTable(2, 't2');
+                    renderPrintPage(1, 't1') + renderPrintPage(2, 't2');
                 setTimeout(() => window.print(), 100);
             });
         }
