@@ -138,8 +138,6 @@ async function build() {
         copyDir(assetsDir, path.join(distDir, 'assets'));
         console.log('  -> dist/assets/');
     }
-    
-    // 6. Copy lista-invitati.html
     const listaInvitatiPath = path.join(srcDir, 'lista-invitati.html');
     if (fs.existsSync(listaInvitatiPath)) {
         fs.copyFileSync(listaInvitatiPath, path.join(distDir, 'lista-invitati.html'));
