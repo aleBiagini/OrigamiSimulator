@@ -406,7 +406,7 @@
         }
 
         #printArea.maitre-print {
-            font-family: Georgia, 'Times New Roman', serif;
+            font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
         }
 
         @media print {
@@ -520,11 +520,19 @@
                 padding: 6mm 0 2mm;
             }
 
+            #printArea.maitre-print {
+                font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+                font-size: 10pt;
+                color: #111;
+            }
+
             #printArea.maitre-print .maitre-page {
                 page: auto;
                 page-break-after: always;
                 break-after: page;
                 min-height: 100vh;
+                display: flex;
+                flex-direction: column;
                 padding: 0;
             }
 
@@ -533,108 +541,104 @@
                 break-after: auto;
             }
 
+            #printArea.maitre-print .maitre-header {
+                text-align: center;
+                margin-bottom: 10mm;
+                flex-shrink: 0;
+            }
+
             #printArea.maitre-print .maitre-title {
-                font-size: 18pt;
-                color: #8b7355;
-                margin-bottom: 6px;
+                font-size: 16pt;
+                font-weight: 700;
+                letter-spacing: 0.06em;
+                text-transform: uppercase;
+                color: #222;
+                margin-bottom: 4px;
             }
 
             #printArea.maitre-print .maitre-subtitle {
-                font-size: 11pt;
-                color: #666;
-                margin-bottom: 24px;
-            }
-
-            #printArea.maitre-print .maitre-table-heading {
-                font-size: 14pt;
-                color: #5a4a3a;
-                border-bottom: 2px solid #8b7355;
-                padding-bottom: 6px;
-                margin: 20px 0 12px;
-            }
-
-            #printArea.maitre-print .maitre-table-heading:first-of-type {
-                margin-top: 0;
-            }
-
-            #printArea.maitre-print table {
-                width: 100%;
-                border-collapse: collapse;
-                font-size: 10.5pt;
-            }
-
-            #printArea.maitre-print th {
-                background: #8b7355 !important;
-                color: white !important;
-                padding: 8px 10px;
-                text-align: left;
-                font-weight: normal;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-
-            #printArea.maitre-print td {
-                padding: 7px 10px;
-                border-bottom: 1px solid #ddd;
-                vertical-align: top;
-            }
-
-            #printArea.maitre-print tr:nth-child(even) td {
-                background: #f9f6f2;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-
-            #printArea.maitre-print .maitre-tag {
-                display: inline-block;
                 font-size: 9pt;
-                font-weight: bold;
-                padding: 2px 6px;
-                border-radius: 3px;
-                margin-right: 4px;
+                color: #666;
+                letter-spacing: 0.04em;
                 text-transform: uppercase;
             }
 
-            #printArea.maitre-print .maitre-tag-seggiolone {
-                background: #fff3cd;
-                color: #856404;
+            #printArea.maitre-print .maitre-table-wrap {
+                flex: 1;
+                display: flex;
+                align-items: stretch;
+                justify-content: center;
+                min-height: 0;
             }
 
-            #printArea.maitre-print .maitre-tag-veg {
-                background: #d4edda;
-                color: #155724;
+            #printArea.maitre-print .maitre-table {
+                display: grid;
+                grid-template-columns: 1fr 18mm 1fr;
+                gap: 5mm;
+                width: 100%;
+                height: 100%;
+                align-items: stretch;
             }
 
-            #printArea.maitre-print .maitre-tag-vegan {
-                background: #cce5ff;
-                color: #004085;
+            #printArea.maitre-print .maitre-col {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                gap: 0;
             }
 
-            #printArea.maitre-print .maitre-tag-allergy {
-                background: #f8d7da;
-                color: #721c24;
+            #printArea.maitre-print .maitre-col.left {
+                text-align: right;
             }
 
-            #printArea.maitre-print .maitre-notes {
+            #printArea.maitre-print .maitre-col.right {
+                text-align: left;
+            }
+
+            #printArea.maitre-print .maitre-guest {
+                break-inside: avoid;
+                margin-bottom: 2mm;
+            }
+
+            #printArea.maitre-print .maitre-name {
+                display: block;
                 font-size: 9.5pt;
-                color: #721c24;
-                margin-top: 2px;
+                font-weight: 600;
+                line-height: 1.25;
+                color: #111;
             }
 
-            #printArea.maitre-print .maitre-empty {
-                color: #888;
-                font-style: italic;
-                font-size: 10pt;
-                padding: 8px 0;
+            #printArea.maitre-print .maitre-note {
+                display: block;
+                font-size: 8pt;
+                font-weight: 600;
+                line-height: 1.2;
+                margin-top: 1px;
+                letter-spacing: 0.02em;
+            }
+
+            #printArea.maitre-print .maitre-note-chair {
+                color: #856404;
+                text-transform: uppercase;
+            }
+
+            #printArea.maitre-print .maitre-note-diet {
+                color: #721c24;
+            }
+
+            #printArea.maitre-print .maitre-spine {
+                background: #d9d9d9;
+                min-height: 100%;
+                height: 100%;
             }
 
             #printArea.maitre-print .maitre-footer {
-                margin-top: 32px;
+                margin-top: auto;
+                padding-top: 6mm;
                 text-align: center;
-                font-size: 9pt;
+                font-size: 8pt;
                 color: #888;
-                border-top: 1px solid #e6dfd3;
-                padding-top: 10px;
+                flex-shrink: 0;
             }
         }
     </style>
@@ -986,109 +990,62 @@
             `;
         }
 
-        function getMaitreAnnotations(g) {
-            const tags = [];
+        function getMaitreGuestNotesHtml(g) {
+            const parts = [];
             if (g.tags && g.tags.includes('seggiolone')) {
-                tags.push('<span class="maitre-tag maitre-tag-seggiolone">Seggiolone</span>');
+                parts.push('<span class="maitre-note maitre-note-chair">Seggiolone</span>');
             }
             const diet = g.dietaryPreference || 'nessuna';
-            if (diet === 'vegetariano') {
-                tags.push('<span class="maitre-tag maitre-tag-veg">Vegetariano</span>');
+            if (diet === 'allergie' && g.dietaryNotes) {
+                parts.push(`<span class="maitre-note maitre-note-diet">${escapeHtml(g.dietaryNotes)}</span>`);
+            } else if (diet === 'vegetariano') {
+                parts.push('<span class="maitre-note maitre-note-diet">Vegetariano</span>');
             } else if (diet === 'vegano') {
-                tags.push('<span class="maitre-tag maitre-tag-vegan">Vegano</span>');
-            } else if (diet === 'allergie') {
-                tags.push('<span class="maitre-tag maitre-tag-allergy">Allergie</span>');
+                parts.push('<span class="maitre-note maitre-note-diet">Vegano</span>');
             }
-            let notes = '';
-            if (g.dietaryNotes) {
-                notes = `<div class="maitre-notes">${escapeHtml(g.dietaryNotes)}</div>`;
-            }
-            return { tags: tags.join(''), notes, hasSpecial: tags.length > 0 || notes };
+            return parts.join('');
         }
 
-        function renderMaitreTableRows(tableNum, tKey) {
-            const sides = [
-                { key: 'a', label: 'Sinistra' },
-                { key: 'b', label: 'Destra' }
-            ];
-            let rows = '';
-            sides.forEach(({ key, label }) => {
-                layout[tKey + key].forEach(id => {
-                    const g = guestMap[id];
-                    if (!g) return;
-                    const ann = getMaitreAnnotations(g);
-                    rows += `<tr>
-                        <td>${escapeHtml(g.name)}</td>
-                        <td>T${tableNum} ${label}</td>
-                        <td>${ann.tags || '—'}${ann.notes}</td>
-                    </tr>`;
-                });
-            });
-            return rows;
+        function renderMaitreGuest(id) {
+            const g = guestMap[id];
+            if (!g) return '';
+            const notes = getMaitreGuestNotesHtml(g);
+            return `<div class="maitre-guest">
+                <span class="maitre-name">${escapeHtml(g.name)}</span>
+                ${notes}
+            </div>`;
         }
 
-        function renderMaitreSpecialSection(filterFn) {
-            const items = [];
-            ['t1a', 't1b', 't2a', 't2b'].forEach(zone => {
-                const tableNum = zone.startsWith('t1') ? 1 : 2;
-                const side = zone.endsWith('a') ? 'Sinistra' : 'Destra';
-                layout[zone].forEach(id => {
-                    const g = guestMap[id];
-                    if (!g || !filterFn(g)) return;
-                    const ann = getMaitreAnnotations(g);
-                    items.push(`<tr>
-                        <td>${escapeHtml(g.name)}</td>
-                        <td>T${tableNum} ${side}</td>
-                        <td>${ann.tags}${ann.notes}</td>
-                    </tr>`);
-                });
-            });
-            if (!items.length) {
-                return `<p class="maitre-empty">Nessuno</p>`;
-            }
-            return `<table>
-                <thead><tr><th>Nome</th><th>Posto</th><th>Note</th></tr></thead>
-                <tbody>${items.join('')}</tbody>
-            </table>`;
+        function renderMaitreCol(ids) {
+            return ids.map(id => renderMaitreGuest(id)).join('');
+        }
+
+        function renderMaitreTablePage(tableNum, tKey, printDate) {
+            const footer = printDate
+                ? `<p class="maitre-footer">Stampato il ${printDate}</p>`
+                : '';
+            return `
+                <div class="maitre-page">
+                    <div class="maitre-header">
+                        <h1 class="maitre-title">Tavolo ${tableNum}</h1>
+                        <p class="maitre-subtitle">Foglio maitre &mdash; Alessandro e Simona</p>
+                    </div>
+                    <div class="maitre-table-wrap">
+                        <div class="maitre-table">
+                            <div class="maitre-col left">${renderMaitreCol(layout[tKey + 'a'])}</div>
+                            <div class="maitre-spine"></div>
+                            <div class="maitre-col right">${renderMaitreCol(layout[tKey + 'b'])}</div>
+                        </div>
+                    </div>
+                    ${footer}
+                </div>
+            `;
         }
 
         function renderMaitrePrint() {
             const printDate = new Date().toLocaleString('it-IT');
-            const seggioloni = renderMaitreSpecialSection(g =>
-                g.tags && g.tags.includes('seggiolone'));
-            const dietSpecial = renderMaitreSpecialSection(g =>
-                (g.dietaryPreference && g.dietaryPreference !== 'nessuna') || g.dietaryNotes);
-
-            return `
-                <div class="maitre-page">
-                    <h1 class="maitre-title">Foglio Maitre &mdash; Tavoli Cerimonia</h1>
-                    <p class="maitre-subtitle">Alessandro e Simona</p>
-
-                    <h2 class="maitre-table-heading">Seggioloni</h2>
-                    ${seggioloni}
-
-                    <h2 class="maitre-table-heading">Intolleranze, allergie e diete speciali</h2>
-                    ${dietSpecial}
-                </div>
-                <div class="maitre-page">
-                    <h1 class="maitre-title">Disposizione completa per tavolo</h1>
-                    <p class="maitre-subtitle">Riferimento rapido posti e indicazioni</p>
-
-                    <h2 class="maitre-table-heading">Tavolo 1</h2>
-                    <table>
-                        <thead><tr><th>Nome</th><th>Posto</th><th>Indicazioni</th></tr></thead>
-                        <tbody>${renderMaitreTableRows(1, 't1')}</tbody>
-                    </table>
-
-                    <h2 class="maitre-table-heading">Tavolo 2</h2>
-                    <table>
-                        <thead><tr><th>Nome</th><th>Posto</th><th>Indicazioni</th></tr></thead>
-                        <tbody>${renderMaitreTableRows(2, 't2')}</tbody>
-                    </table>
-
-                    <p class="maitre-footer">Stampato il ${printDate}</p>
-                </div>
-            `;
+            return renderMaitreTablePage(1, 't1')
+                + renderMaitreTablePage(2, 't2', printDate);
         }
 
         async function ensurePrintFont() {
